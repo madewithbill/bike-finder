@@ -1,22 +1,18 @@
 <script setup lang="ts">
 import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
-import { ref, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import type { Ref } from 'vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
-const currentHeight = ref(0)
-const currentFeet = ref(0)
-const currentInches = ref(0)
-const currentInseam = ref(0)
+const currentFeet = ref(5)
+const currentInches = ref(10)
+const currentHeight = computed(() => currentFeet.value * 12 + currentInches.value)
+const currentInseam = ref(26)
 const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
 
 function selectType(bike: string) {
   currentType.value = bike
-}
-
-function getHeight() {
-  currentHeight.value = currentFeet.value * 12 + currentInches.value
 }
 
 function setRoadSize() {
@@ -24,7 +20,6 @@ function setRoadSize() {
 }
 
 function setSizeByHeight() {
-  getHeight()
   if (currentType.value === 'MTB') {
     currentSize.value = getMtbSize(currentHeight.value)
   }
@@ -65,7 +60,7 @@ watch(currentType, () => {
           type="number"
           min="4"
           max="6"
-:disabled="currentType === 'Road'"
+          :disabled="currentType === 'Road'"
           class="h-8 border"
         />
         <label for="inches">inches</label>
@@ -76,7 +71,7 @@ watch(currentType, () => {
           type="number"
           min="0"
           max="11"
-:disabled="currentType === 'Road'"
+          :disabled="currentType === 'Road'"
           class="h-8 border"
         />
         <p>current height is: {{ currentHeight }}</p>
@@ -88,7 +83,7 @@ watch(currentType, () => {
           type="number"
           min="26"
           max="39"
-:disabled="currentType !== 'Road'"
+          :disabled="currentType !== 'Road'"
           class="h-8 border"
         />
         <p>current inseam is: {{ currentInseam }}</p>
