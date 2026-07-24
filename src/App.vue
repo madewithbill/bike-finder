@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
+import { ref, watch } from 'vue'
+import type { Ref } from 'vue'
 
-const bikeTypes = ['Road', 'Gravel', 'City']
+const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
 const currentHeight = ref(0)
 const currentFeet = ref(0)
 const currentInches = ref(0)
 const currentInseam = ref(0)
+const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
 
 function selectType(bike: string) {
   currentType.value = bike
@@ -15,13 +18,32 @@ function selectType(bike: string) {
 function getHeight() {
   currentHeight.value = currentFeet.value * 12 + currentInches.value
 }
+
+function setRoadSize() {
+  currentSize.value = getRoadSize(currentInseam.value)
+}
+
+function setSizeByHeight() {
+  getHeight()
+  if (currentType.value === 'MTB') {
+    currentSize.value = getMtbSize(currentHeight.value)
+  }
+  if (currentType.value === 'City') {
+    currentSize.value = getCitySize(currentHeight.value)
+  }
+}
+watch(currentType, () => {
+  console.log(currentType.value === 'Road')
+})
 </script>
 
 <template>
   <main>
     <section class="min-h-dvh w-full flex flex-col justify-center items-center">
       <div>
-        <h1 class="text-5xl">bike finder</h1>
+        <h1 class="text-5xl mb-2">bike finder</h1>
+        <p>Recommened size={{ currentSize.alphaSize }}</p>
+        <p v-if="currentType == 'road'">Size in CM={{ currentSize.cmSize }}</p>
         <div class="flex gap-4">
           <button
             v-for="bike in bikeTypes"
@@ -37,7 +59,7 @@ function getHeight() {
       <div>
         <label for="feet">feet</label>
         <input
-          @input="getHeight"
+          @input="setSizeByHeight"
           v-model.number="currentFeet"
           id="feet"
           type="number"
@@ -47,7 +69,7 @@ function getHeight() {
         />
         <label for="inches">inches</label>
         <input
-          @input="getHeight"
+          @input="setSizeByHeight"
           v-model.number="currentInches"
           id="inches"
           type="number"
@@ -58,6 +80,7 @@ function getHeight() {
         <p>current height is: {{ currentHeight }}</p>
         <label for="inseam">inches</label>
         <input
+          @input="setRoadSize"
           v-model.number="currentInseam"
           id="inseam"
           type="number"
