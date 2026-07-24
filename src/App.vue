@@ -43,7 +43,7 @@ watch(currentType, () => {
       <div>
         <h1 class="text-5xl mb-2">bike finder</h1>
         <p>Recommened size={{ currentSize.alphaSize }}</p>
-        <p v-if="currentType == 'road'">Size in CM={{ currentSize.cmSize }}</p>
+        <p v-if="currentType === 'Road'">Size in CM={{ currentSize.cmSize }}</p>
         <div class="flex gap-4">
           <button
             v-for="bike in bikeTypes"
