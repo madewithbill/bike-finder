@@ -25,3 +25,14 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+label,
+input {
+  @apply px-3 h-12 w-full;
+}
+label {
+  @apply border border-neutral-700 rounded-sm flex flex-col text-sm text-neutral-500 pt-1 relative;
+}
+input {
+  @apply text-base text-neutral-800 absolute inset-0 pt-4;
+}
