@@ -65,6 +65,7 @@ watch(currentType, () => {
           type="number"
           min="4"
           max="6"
+:disabled="currentType === 'Road'"
           class="h-8 border"
         />
         <label for="inches">inches</label>
@@ -75,6 +76,7 @@ watch(currentType, () => {
           type="number"
           min="0"
           max="11"
+:disabled="currentType === 'Road'"
           class="h-8 border"
         />
         <p>current height is: {{ currentHeight }}</p>
@@ -86,6 +88,7 @@ watch(currentType, () => {
           type="number"
           min="26"
           max="39"
+:disabled="currentType !== 'Road'"
           class="h-8 border"
         />
         <p>current inseam is: {{ currentInseam }}</p>
