@@ -80,6 +80,10 @@ onMounted(() => {
 
         <div>
           <span class="font-medium">Measurements</span>
+          <div class="text-sm italic mb-2 text-neutral-600">
+            <p v-if="currentType === 'Road'">Your size will be calculated by your inseam.</p>
+            <p v-else>Your size will be calculated by your height.</p>
+          </div>
           <div class="grid grid-cols-2 gap-1">
             <label
               >Feet

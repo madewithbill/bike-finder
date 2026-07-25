@@ -24,8 +24,8 @@ input {
   @apply px-3 h-12 w-full;
 }
 label {
-  @apply border border-neutral-700 rounded-sm flex flex-col text-sm text-neutral-500 pt-1 relative;
+  @apply flex flex-col text-sm text-neutral-500 pt-1 relative;
 }
 input {
-  @apply text-base text-neutral-800 absolute inset-0 pt-4;
+  @apply border border-neutral-700 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4 disabled:opacity-20 disabled:bg-neutral-300;
 }
