@@ -88,7 +88,8 @@ onMounted(() => {
             <p v-if="currentType === 'Road'">Your size will be calculated by your inseam.</p>
             <p v-else>Your size will be calculated by your height.</p>
           </div>
-          <div class="grid grid-cols-2 gap-1">
+          <fieldset class="grid grid-cols-2 gap-1 mb-2">
+            <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
             <label
               >Feet
               <input
@@ -113,21 +114,24 @@ onMounted(() => {
                 :disabled="currentType === 'Road'"
               />
             </label>
-          </div>
+          </fieldset>
+          <fieldset>
+            <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
+            <label
+              >Inches
+              <input
+                @input="setSizeByInseam"
+                v-model.number="currentInseam"
+                name="inseam"
+                type="number"
+                step="0.1"
+                min="26"
+                max="39"
+                :disabled="currentType !== 'Road'"
+              />
+            </label>
+          </fieldset>
         </div>
-
-        <label
-          >Inseam
-          <input
-            @input="setSizeByInseam"
-            v-model.number="currentInseam"
-            name="inseam"
-            type="number"
-            min="26"
-            max="39"
-            :disabled="currentType !== 'Road'"
-          />
-        </label>
       </div>
     </section>
   </main>
