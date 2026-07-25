@@ -15,7 +15,7 @@ function selectType(bike: string) {
   currentType.value = bike
 }
 
-function setRoadSize() {
+function setSizeByInseam() {
   currentSize.value = getRoadSize(currentInseam.value)
 }
 
@@ -29,11 +29,15 @@ function setSizeByHeight() {
 }
 
 watch(currentType, () => {
-  console.log(currentType.value === 'Road')
+  if (currentType.value === 'Road') {
+    setSizeByInseam()
+  } else {
+    setSizeByHeight()
+  }
 })
 
 onMounted(() => {
-  setRoadSize()
+  setSizeByInseam()
 })
 </script>
 
@@ -115,7 +119,7 @@ onMounted(() => {
         <label
           >Inseam
           <input
-            @input="setRoadSize"
+            @input="setSizeByInseam"
             v-model.number="currentInseam"
             name="inseam"
             type="number"
