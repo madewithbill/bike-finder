@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
@@ -27,8 +27,13 @@ function setSizeByHeight() {
     currentSize.value = getCitySize(currentHeight.value)
   }
 }
+
 watch(currentType, () => {
   console.log(currentType.value === 'Road')
+})
+
+onMounted(() => {
+  setRoadSize()
 })
 </script>
 
