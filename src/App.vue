@@ -49,8 +49,16 @@ onMounted(() => {
           alt=""
           class="w-full h-120 object-cover"
         />
-        <p>Recommened size={{ currentSize.alphaSize }}</p>
-        <p v-if="currentType === 'Road'">Size in CM={{ currentSize.cmSize }}</p>
+        <span class="uppercase text-sm font-mono text-neutral-500">Recommended Size</span>
+        <div class="flex items-end gap-2 font-semibold">
+          <span class="text-7xl">{{ currentSize.alphaSize }}</span>
+          <span class="text-neutral-500 pb-1" v-if="currentType === 'Road'">
+            <span class="mr-0.5">/</span>
+            {{ currentSize.cmSize }}cm
+          </span>
+        </div>
+        <!-- Include conditional notes for the bike type -->
+        <!-- Include carousel for shopping bikes of the current type, based on separate data file -->
       </div>
       <div class="px-8 py-8 w-full max-w-120 justify-self-center grid grid-cols-1 gap-4">
         <h1 class="text-4xl font-semibold">Find your bike size</h1>
