@@ -29,3 +29,15 @@ label {
 input {
   @apply border border-neutral-700 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4 disabled:opacity-20 disabled:bg-neutral-300;
 }
+
+li {
+  @apply relative pl-4;
+}
+
+li::before {
+  @apply content-['•'] absolute left-0;
+}
+
+a.text-link {
+  @apply underline hover:text-neutral-950;
+}
