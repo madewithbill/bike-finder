@@ -42,95 +42,103 @@ onMounted(() => {
 </script>
 
 <template>
-  <header class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-300">
+  <header
+    class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-300 fixed z-100 w-full bg-white"
+  >
     Bike finder
   </header>
-  <main>
+  <main class="">
     <section class="w-full grid grid-cols-2 items-start">
-      <div class="bg-neutral-100 min-h-dvh">
+      <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden md:block sticky top-12">
         <img
           src="https://cdn.mos.cms.futurecdn.net/AziEScuczQYWXQPNMDteB5.jpg"
           alt=""
-          class="w-full h-120 object-cover"
+          class="size-full object-cover"
         />
-        <span class="uppercase text-sm font-mono text-neutral-500">Recommended Size</span>
-        <div class="flex items-end gap-2 font-semibold">
-          <span class="text-7xl">{{ currentSize.alphaSize }}</span>
-          <span class="text-neutral-500 pb-1" v-if="currentType === 'Road'">
-            <span class="mr-0.5">/</span>
-            {{ currentSize.cmSize }}cm
-          </span>
+      </div>
+      <div class="px-8 py-12 w-full max-w-250 justify-self-center grid grid-cols-1 gap-8 mt-12">
+        <h1 class="text-5xl font-semibold mb-4">Find your bike size</h1>
+        <div>
+          <span class="uppercase text-sm font-mono text-neutral-500">Recommended Size</span>
+          <div class="flex items-end gap-2 font-semibold text-neutral-800">
+            <span class="text-7xl">{{ currentSize.alphaSize }}</span>
+            <span class="text-neutral-500 pb-1" v-if="currentType === 'Road'">
+              <span class="mr-0.5">/</span>
+              {{ currentSize.cmSize }}cm
+            </span>
+          </div>
         </div>
         <!-- Include conditional notes for the bike type -->
         <!-- Include carousel for shopping bikes of the current type, based on separate data file -->
-      </div>
-      <div class="px-8 py-8 w-full max-w-120 justify-self-center grid grid-cols-1 gap-4">
-        <h1 class="text-4xl font-semibold">Find your bike size</h1>
-        <div>
-          <span class="font-medium">Select bike type</span>
-          <div class="grid grid-cols-3 gap-1">
-            <button
-              v-for="bike in bikeTypes"
-              @click="selectType(bike)"
-              class="px-4 py-2 rounded-sm hover:cursor-pointer transition-colors duration-300 font-medium"
-              :class="
-                currentType === bike ? 'bg-amber-200 ' : 'bg-neutral-200 hover:bg-neutral-300'
-              "
-            >
-              {{ bike }}
-            </button>
+        <div class="p-6 bg-neutral-50 rounded-md grid grid-cols-1 gap-6 border border-neutral-200">
+          <div>
+            <span class="font-medium mb-2 block">Select bike type</span>
+            <div class="grid grid-cols-3 gap-1">
+              <button
+                v-for="bike in bikeTypes"
+                @click="selectType(bike)"
+                class="px-4 py-2 rounded-sm hover:cursor-pointer transition-colors duration-300 font-medium"
+                :class="
+                  currentType === bike ? 'bg-amber-200 ' : 'bg-neutral-200 hover:bg-neutral-300'
+                "
+              >
+                {{ bike }}
+              </button>
+            </div>
           </div>
-        </div>
 
-        <div>
-          <span class="font-medium">Measurements</span>
-          <div class="text-sm italic mb-2 text-neutral-600">
-            <p v-if="currentType === 'Road'">Your size will be calculated by your inseam.</p>
-            <p v-else>Your size will be calculated by your height.</p>
+          <div>
+            <span class="font-medium mb-2 block">Measurements</span>
+            <div class="text-sm italic mb-2 text-neutral-600">
+              <p class="leading-none" v-if="currentType === 'Road'">
+                Your size will be calculated by your inseam.
+              </p>
+              <p v-else>Your size will be calculated by your height.</p>
+            </div>
+            <fieldset class="grid grid-cols-2 gap-1 mb-2">
+              <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
+              <label
+                >Feet
+                <input
+                  @input="setSizeByHeight"
+                  v-model.number="currentFeet"
+                  name="feet"
+                  type="number"
+                  min="4"
+                  max="6"
+                  :disabled="currentType === 'Road'"
+                />
+              </label>
+              <label
+                >Inches
+                <input
+                  @input="setSizeByHeight"
+                  v-model.number="currentInches"
+                  name="inches"
+                  type="number"
+                  min="0"
+                  max="11"
+                  :disabled="currentType === 'Road'"
+                />
+              </label>
+            </fieldset>
+            <fieldset>
+              <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
+              <label
+                >Inches
+                <input
+                  @input="setSizeByInseam"
+                  v-model.number="currentInseam"
+                  name="inseam"
+                  type="number"
+                  step="0.1"
+                  min="26"
+                  max="39"
+                  :disabled="currentType !== 'Road'"
+                />
+              </label>
+            </fieldset>
           </div>
-          <fieldset class="grid grid-cols-2 gap-1 mb-2">
-            <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
-            <label
-              >Feet
-              <input
-                @input="setSizeByHeight"
-                v-model.number="currentFeet"
-                name="feet"
-                type="number"
-                min="4"
-                max="6"
-                :disabled="currentType === 'Road'"
-              />
-            </label>
-            <label
-              >Inches
-              <input
-                @input="setSizeByHeight"
-                v-model.number="currentInches"
-                name="inches"
-                type="number"
-                min="0"
-                max="11"
-                :disabled="currentType === 'Road'"
-              />
-            </label>
-          </fieldset>
-          <fieldset>
-            <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
-            <label
-              >Inches
-              <input
-                @input="setSizeByInseam"
-                v-model.number="currentInseam"
-                name="inseam"
-                type="number"
-                step="0.1"
-                min="26"
-                max="39"
-                :disabled="currentType !== 'Road'"
-              />
-            </label>
-          </fieldset>
         </div>
       </div>
     </section>
