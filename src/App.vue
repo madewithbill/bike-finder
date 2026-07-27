@@ -68,8 +68,6 @@ onMounted(() => {
             </span>
           </div>
         </div>
-        <!-- Include conditional notes for the bike type -->
-        <!-- Include carousel for shopping bikes of the current type, based on separate data file -->
         <div class="p-6 bg-neutral-50 rounded-md grid grid-cols-1 gap-6 border border-neutral-200">
           <div>
             <span class="font-medium mb-2 block">Select bike type</span>
@@ -89,10 +87,8 @@ onMounted(() => {
 
           <div>
             <span class="font-medium mb-2 block">Measurements</span>
-            <div class="text-sm italic mb-2 text-neutral-600">
-              <p class="leading-none" v-if="currentType === 'Road'">
-                Your size will be calculated by your inseam.
-              </p>
+            <div class="text-sm italic mb-2 text-neutral-600 leading-none">
+              <p v-if="currentType === 'Road'">Your size will be calculated by your inseam.</p>
               <p v-else>Your size will be calculated by your height.</p>
             </div>
             <fieldset class="grid grid-cols-2 gap-1 mb-2">
@@ -139,7 +135,46 @@ onMounted(() => {
               </label>
             </fieldset>
           </div>
+          <!-- Conditional notes for the bike type -->
         </div>
+        <div class="p-6 bg-neutral-50 rounded-md border border-neutral-200">
+          <h2 class="font-medium mb-4">Tips & Recommendations</h2>
+          <ul class="flex flex-col gap-2 text-neutral-700">
+            <template v-if="currentType === 'Road'">
+              <li
+                >See our <a class="text-link" href="">measuremment guide</a> to ensure you are
+                capturing your inseam correctly.</li
+              >
+            </template>
+            <template v-else-if="currentType === 'MTB'">
+              <li
+                >When shopping mountain bikes, we recommend reviewing the Reach and Effective Top
+                Tube measurements in the geometry chart found on each detail page.</li
+              >
+              <li
+                >If you have a relatively long torso or arms for your height, you may find that a
+                longer reach gives you a roomier, more comfortable cockpit. If you have a relatively
+                short torso or arms for your height, you may find that a shorter reach makes it
+                easier for you to hold the handlebars comfortably.</li
+              >
+            </template>
+            <template v-else-if="currentType === 'City'">
+              <li>Sizing may vary depending on your city/hybrid bike choice.</li>
+            </template>
+            <template v-if="currentType !== 'MTB'"
+              ><li
+                >Hovering between sizes? Go smaller for a sportier feel, and larger for a comfier,
+                touring-style ride.
+              </li></template
+            >
+            <li
+              >If you have questions about the measuring process or whether sizing up or down would
+              be good for your riding style, let's talk! Call Customer Service or connect with your
+              local retailer.</li
+            >
+          </ul>
+        </div>
+        <!-- Include carousel for shopping bikes of the current type, based on separate data file -->
       </div>
     </section>
   </main>
