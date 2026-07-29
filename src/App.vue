@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
+import { bikes } from './data/bikes'
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
+import useEmblaCarousel from 'embla-carousel-vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -10,6 +12,9 @@ const currentInches = ref(10)
 const currentHeight = computed(() => currentFeet.value * 12 + currentInches.value)
 const currentInseam = ref(26)
 const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
+const currentBikeList = computed(() => {
+  return bikes.filter((bike) => bike.type === currentType.value)
+})
 
 function selectType(bike: string) {
   currentType.value = bike
@@ -39,6 +44,15 @@ watch(currentType, () => {
 onMounted(() => {
   setSizeByInseam()
 })
+
+const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' })
+
+function scrollNext() {
+  emblaApi.value?.scrollNext()
+}
+function scrollPrev() {
+  emblaApi.value?.scrollPrev()
+}
 </script>
 
 <template>
@@ -174,8 +188,78 @@ onMounted(() => {
             >
           </ul>
         </div>
-        <!-- Include carousel for shopping bikes of the current type, based on separate data file -->
+        <!-- Carousel for shopping bikes of the current type -->
+        <div>
+          <div v-if="currentBikeList" class="embla">
+            <div class="flex items-center w-full justify-between">
+              <h2 class="text-xl font-medium">Shop related bikes</h2>
+            </div>
+            <div class="embla__viewport mb-2" ref="emblaRef">
+              <div class="embla__container">
+                <div v-for="bike in currentBikeList" :key="bike.name" class="embla__slide">
+                  <div class="border border-neutral-200 rounded-sm">
+                    <img
+                      src="https://res.cloudinary.com/trekbikes/image/upload/f_auto,c_fill,ar_4:3,w_2160,q_auto/DomaneSLR9AXS-26-57944-A-Primary"
+                      alt=""
+                    />
+                    <div class="px-4 py-3 bg-neutral-100">
+                      <span class="block font-medium leading-tight">{{ bike.name }}</span>
+                      <span class="text-sm">{{
+                        new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                          maximumFractionDigits: 0,
+                        }).format(bike.price)
+                      }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex justify-end w-full">
+              <button
+                @click="scrollPrev"
+                class="embla__prev bg-neutral-100 rounded-sm p-2 hover:cursor-pointer mr-2"
+                >Prev</button
+              >
+              <button
+                @click="scrollNext"
+                class="embla__next bg-neutral-100 rounded-sm p-2 hover:cursor-pointer"
+                >Next</button
+              >
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 </template>
+
+<style scoped>
+.embla {
+  --slide-size: 50%;
+  --slide-spacing: 1rem;
+}
+
+.embla__viewport {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+
+.embla__slide {
+  flex: 0 0 var(--slide-size);
+  min-width: 0;
+  padding-left: var(--slide-spacing);
+}
+
+.embla__prev:disabled,
+.embla__next:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+</style>
