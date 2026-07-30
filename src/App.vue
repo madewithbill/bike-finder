@@ -4,6 +4,8 @@ import { bikes } from './data/bikes'
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
+import Divider from './components/Divider.vue'
+import NavLogo from './components/NavLogo.vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -57,9 +59,9 @@ function scrollPrev() {
 
 <template>
   <header
-    class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-300 fixed z-100 w-full bg-white"
+    class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-200 fixed z-100 w-full bg-white"
   >
-    Bike finder
+    <NavLogo class="w-30" />
   </header>
   <main class="">
     <section class="w-full grid grid-cols-2 items-start">
