@@ -17,6 +17,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply text-neutral-600/80  overscroll-none;
 }
 
 label,
@@ -27,7 +28,11 @@ label {
   @apply flex flex-col text-sm text-neutral-500 pt-1 relative;
 }
 input {
-  @apply border border-neutral-700 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4 disabled:opacity-20 disabled:bg-neutral-300;
+  @apply border border-neutral-400 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4 disabled:opacity-20 disabled:bg-neutral-300 outline-hidden focus-visible:border-neutral-950 focus-visible:border-2;
+}
+
+button {
+  @apply hover:cursor-pointer transition-colors duration-300 font-medium;
 }
 
 li {
@@ -40,4 +45,27 @@ li::before {
 
 a.text-link {
   @apply underline hover:text-neutral-950;
+}
+
+.heading-group {
+  @apply mb-4;
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+  @apply tracking-tight;
+}
+
+h1 {
+  @apply text-2xl sm:text-3xl font-semibold mb-2 text-neutral-950;
+}
+
+h2 {
+  @apply text-xl sm:text-2xl font-medium text-neutral-700;
+}
+
+h3 {
+  @apply font-medium text-lg text-neutral-950;
 }
