@@ -1,27 +1,26 @@
-# .
+![Bikefinder wordmark over image of a black bike.](./.github/thumbnail.avif)
 
-This template should help get you started developing with Vue 3 in Vite.
+**A sizing and recommendation tool for cyclists, demonstrating proficiency in building Vue.js applications.**
 
-## Recommended IDE Setup
+_This is a work in progress and will continue to grow in scope, polish, and functionality. Sourced images from Unsplash and Trek are used solely for the purpose of this demo._
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Usage
 
-## Recommended Browser Setup
+The project has two primary features:
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+1. **Size Calculator**: Select a bike type and enter relevant measurements for an alpha size. This is simply based on sourced sizing charts.
 
-## Type Support for `.vue` Imports in TS
+   Results also come with conditional notes based on the type of bike that was chosen.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+2. **Bike Recommendations**: Based on bike type selection, a carousel dynamically displays related bikes to encourage an intuitive shopping experience.
 
-## Customize configuration
+## Tooling
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+Bikefinder is built with Vue 3 and TypeScript alongside these primary dependencies for development and user experience.
+
+- **[Embla Carousel](https://www.embla-carousel.com/)** for a lightweight, interactive carousel.
+- **[Tailwind CSS](https://tailwindcss.com/)** for rapid utility styling and responsiveness.
+- Vue techniques used: Reactive state, computed properties, conditional rendering, event handling, watchers, lifecycle hooks, and single-file components.
 
 ## Project Setup
 
@@ -40,3 +39,7 @@ npm run dev
 ```sh
 npm run build
 ```
+
+## Todo
+
+- [ ] Add demo link
