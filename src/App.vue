@@ -6,6 +6,7 @@ import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
 import Divider from './components/Divider.vue'
 import NavLogo from './components/NavLogo.vue'
+import HeroImage from './components/HeroImage.vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -66,11 +67,7 @@ function scrollPrev() {
   <main>
     <section class="w-full grid lg:grid-cols-2 items-start">
       <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden lg:block sticky top-12">
-        <img
-          src="https://cdn.mos.cms.futurecdn.net/AziEScuczQYWXQPNMDteB5.jpg"
-          alt=""
-          class="size-full object-cover"
-        />
+        <HeroImage :type="currentType" />
       </div>
       <div
         class="px-4 sm:px-8 py-12 w-full max-w-200 justify-self-center grid grid-cols-1 gap-8 mt-8 sm:mt-10"
