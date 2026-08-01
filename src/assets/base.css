@@ -44,7 +44,7 @@ li::before {
 }
 
 a.text-link {
-  @apply underline hover:text-neutral-950;
+  @apply underline hover:text-neutral-950 hover:cursor-pointer;
 }
 
 .heading-group {
