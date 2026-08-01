@@ -13,7 +13,7 @@ const currentType = ref('Road')
 const currentFeet = ref(5)
 const currentInches = ref(10)
 const currentHeight = computed(() => currentFeet.value * 12 + currentInches.value)
-const currentInseam = ref(26)
+const currentInseam = ref(28.5)
 const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
 const currentBikeList = computed(() => {
   return bikes.filter((bike) => bike.type === currentType.value)
@@ -123,8 +123,6 @@ function scrollPrev() {
                     v-model.number="currentFeet"
                     name="feet"
                     type="number"
-                    min="4"
-                    max="6"
                     :disabled="currentType === 'Road'"
                   />
                 </label>
@@ -151,23 +149,30 @@ function scrollPrev() {
                     name="inseam"
                     type="number"
                     step="0.1"
-                    min="26"
-                    max="39"
                     :disabled="currentType !== 'Road'"
                   />
                 </label>
               </fieldset>
             </div>
           </div>
+
           <div class="px-6 py-4 border border-neutral-800 rounded-sm">
             <span class="uppercase text-xs font-mono text-neutral-500 mb-3 tracking-wider"
               >Recommended size</span
             >
             <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
-              <span class="text-7xl sm:text-[6rem] leading-none text-neutral-950">{{
-                currentSize.alphaSize
-              }}</span>
-              <span class="text-neutral-500" v-if="currentType === 'Road'">
+              <div class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
+                <span v-if="currentSize.alphaSize">{{ currentSize.alphaSize }}</span>
+                <template v-else>
+                  <span class="text-neutral-950/50">N/A</span>
+                  <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
+                    >Oh no! We couldn't find a match! <a class="text-link">Contact support</a> for
+                    direct help.</p
+                  >
+                </template>
+              </div>
+
+              <span class="text-neutral-500" v-if="currentSize.alphaSize && currentType === 'Road'">
                 <span class="mr-0.5">/</span>
                 {{ currentSize.cmSize }}cm
               </span>
