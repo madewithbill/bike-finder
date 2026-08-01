@@ -222,10 +222,10 @@ function scrollPrev() {
         <Divider />
         <!-- Carousel for shopping bikes of the current type -->
         <div>
-          <div v-if="currentBikeList" class="embla">
+          <div class="embla">
             <div class="heading-group flex items-center justify-between">
               <h2>Shop related bikes</h2>
-              <div class="">
+              <div v-if="currentBikeList.length > 0">
                 <button
                   @click="scrollPrev"
                   class="embla__prev rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200 mr-2"
@@ -259,7 +259,7 @@ function scrollPrev() {
                 </button>
               </div>
             </div>
-            <div class="embla__viewport mb-2" ref="emblaRef">
+            <div v-if="currentBikeList.length > 0" class="embla__viewport mb-2" ref="emblaRef">
               <div class="embla__container">
                 <div v-for="bike in currentBikeList" :key="bike.name" class="embla__slide">
                   <div class="bg-neutral-100/60 px-4 rounded-sm">
@@ -285,6 +285,10 @@ function scrollPrev() {
                 </div>
               </div>
             </div>
+            <p v-else class="text-lg text-neutral-950/50"
+              >No matching bikes found. For more choices,
+              <a href="" class="text-link">shop all bikes</a>.</p
+            >
           </div>
         </div>
       </div>
