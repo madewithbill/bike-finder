@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
-import { bikes } from './data/bikes'
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
