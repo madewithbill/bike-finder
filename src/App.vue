@@ -3,9 +3,12 @@ import { getRoadSize, getMtbSize, getCitySize } from './utils/getSizes'
 import { ref, computed, watch, onMounted } from 'vue'
 import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
+import { supabase } from './utils/supabaseClient.ts'
+
 import Divider from './components/Divider.vue'
 import NavLogo from './components/NavLogo.vue'
 import HeroImage from './components/HeroImage.vue'
+import type { Tables } from './utils/supabase.ts'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -14,9 +17,6 @@ const currentInches = ref(10)
 const currentHeight = computed(() => currentFeet.value * 12 + currentInches.value)
 const currentInseam = ref(28.5)
 const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
-const currentBikeList = computed(() => {
-  return bikes.filter((bike) => bike.type === currentType.value)
-})
 
 function selectType(bike: string) {
   currentType.value = bike
@@ -55,6 +55,20 @@ function scrollNext() {
 function scrollPrev() {
   emblaApi.value?.scrollPrev()
 }
+
+const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
+const currentBikeList = computed(() => {
+  return !bikes.value ? [] : bikes.value.filter((bike) => bike.bike_type === currentType.value)
+})
+
+async function getBikes() {
+  const { data } = await supabase.from('bikes').select()
+  bikes.value = data
+}
+
+onMounted(() => {
+  getBikes()
+})
 </script>
 
 <template>
@@ -262,11 +276,7 @@ function scrollPrev() {
               <div class="embla__container">
                 <div v-for="bike in currentBikeList" :key="bike.name" class="embla__slide">
                   <div class="bg-neutral-100/60 px-4 rounded-sm">
-                    <img
-                      src="https://res.cloudinary.com/trekbikes/image/upload/f_auto,c_fill,ar_4:3,w_2160,q_auto/DomaneSLR9AXS-26-57944-A-Primary"
-                      alt=""
-                      class=""
-                    />
+                    <img v-if="bike.main_image" :src="bike.main_image" alt="" class="" />
                     <div class="px-2 py-4">
                       <span
                         class="block font-medium leading-tight text-neutral-800 sm:text-lg tracking-tight"
@@ -276,8 +286,8 @@ function scrollPrev() {
                         new Intl.NumberFormat('en-US', {
                           style: 'currency',
                           currency: 'USD',
-                          maximumFractionDigits: 0,
-                        }).format(bike.price)
+                          maximumFractionDigits: 2,
+                        }).format(bike.price / 100)
                       }}</span>
                     </div>
                   </div>
