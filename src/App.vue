@@ -9,6 +9,7 @@ import Divider from './components/Divider.vue'
 import NavLogo from './components/NavLogo.vue'
 import HeroImage from './components/HeroImage.vue'
 import type { Tables } from './utils/supabase.ts'
+import BikeCard from './components/BikeCard.vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -275,22 +276,7 @@ onMounted(() => {
             <div v-if="currentBikeList.length > 0" class="embla__viewport mb-2" ref="emblaRef">
               <div class="embla__container">
                 <div v-for="bike in currentBikeList" :key="bike.name" class="embla__slide">
-                  <div class="bg-neutral-100/60 px-4 rounded-sm">
-                    <img v-if="bike.main_image" :src="bike.main_image" alt="" class="" />
-                    <div class="px-2 py-4">
-                      <span
-                        class="block font-medium leading-tight text-neutral-800 sm:text-lg tracking-tight"
-                        >{{ bike.name }}</span
-                      >
-                      <span class="text-sm text-neutral-600">{{
-                        new Intl.NumberFormat('en-US', {
-                          style: 'currency',
-                          currency: 'USD',
-                          maximumFractionDigits: 2,
-                        }).format(bike.price / 100)
-                      }}</span>
-                    </div>
-                  </div>
+                  <BikeCard :bike="bike" />
                 </div>
               </div>
             </div>
