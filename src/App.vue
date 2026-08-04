@@ -239,7 +239,7 @@ onMounted(() => {
           <div class="embla">
             <div class="heading-group flex items-center justify-between">
               <h2>Shop related bikes</h2>
-              <div v-if="currentBikeList.length > 0">
+              <div v-if="currentBikeList.length > 2">
                 <button
                   @click="scrollPrev"
                   class="embla__prev rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200 mr-2"
