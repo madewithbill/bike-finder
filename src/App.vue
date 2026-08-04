@@ -273,17 +273,17 @@ onMounted(() => {
                 </button>
               </div>
             </div>
-            <div v-if="currentBikeList.length > 0" class="embla__viewport mb-2" ref="emblaRef">
-              <div class="embla__container">
+            <div ref="emblaRef" class="embla__viewport">
+              <div v-if="currentBikeList.length > 0" class="embla__container">
                 <div v-for="bike in currentBikeList" :key="bike.name" class="embla__slide">
                   <BikeCard :bike="bike" />
                 </div>
               </div>
+              <p v-else class="text-lg text-neutral-950/50 mt-2"
+                >No matching bikes found. For more choices,
+                <a href="" class="text-link">shop all bikes</a>.</p
+              >
             </div>
-            <p v-else class="text-lg text-neutral-950/50"
-              >No matching bikes found. For more choices,
-              <a href="" class="text-link">shop all bikes</a>.</p
-            >
           </div>
         </div>
       </div>
