@@ -37,6 +37,7 @@ function setSizeByHeight() {
 }
 
 watch(currentType, () => {
+  getBikes()
   if (currentType.value === 'Road') {
     setSizeByInseam()
   } else {
@@ -63,7 +64,11 @@ const currentBikeList = computed(() => {
 })
 
 async function getBikes() {
-  const { data } = await supabase.from('bikes').select()
+  const { data } = await supabase
+    .from('bikes')
+    .select()
+    .eq('bike_type', currentType.value)
+    .eq('in_stock', true)
   bikes.value = data
 }
 
