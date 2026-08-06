@@ -17,36 +17,23 @@ const currentFeet = ref(5)
 const currentInches = ref(10)
 const currentHeight = computed(() => currentFeet.value * 12 + currentInches.value)
 const currentInseam = ref(28.5)
-const currentSize: Ref<{ alphaSize: string; cmSize?: string }> = ref({ alphaSize: '', cmSize: '' })
+
+const currentSize = computed(() => {
+  if (currentType.value === 'Road') {
+    return getRoadSize(currentInseam.value)
+  } else if (currentType.value === 'MTB') {
+    return getMtbSize(currentHeight.value)
+  } else {
+    return getCitySize(currentHeight.value)
+  }
+})
 
 function selectType(bike: string) {
   currentType.value = bike
 }
 
-function setSizeByInseam() {
-  currentSize.value = getRoadSize(currentInseam.value)
-}
-
-function setSizeByHeight() {
-  if (currentType.value === 'MTB') {
-    currentSize.value = getMtbSize(currentHeight.value)
-  }
-  if (currentType.value === 'City') {
-    currentSize.value = getCitySize(currentHeight.value)
-  }
-}
-
 watch(currentType, () => {
   getBikes()
-  if (currentType.value === 'Road') {
-    setSizeByInseam()
-  } else {
-    setSizeByHeight()
-  }
-})
-
-onMounted(() => {
-  setSizeByInseam()
 })
 
 const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' })
@@ -138,7 +125,6 @@ onMounted(() => {
                 <label
                   >Feet
                   <input
-                    @input="setSizeByHeight"
                     v-model.number="currentFeet"
                     name="feet"
                     type="number"
@@ -148,7 +134,6 @@ onMounted(() => {
                 <label
                   >Inches
                   <input
-                    @input="setSizeByHeight"
                     v-model.number="currentInches"
                     name="inches"
                     type="number"
@@ -163,7 +148,6 @@ onMounted(() => {
                 <label
                   >Inches
                   <input
-                    @input="setSizeByInseam"
                     v-model.number="currentInseam"
                     name="inseam"
                     type="number"
