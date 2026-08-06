@@ -1,5 +1,7 @@
+type BikeSize = { alphaSize: string; cmSize?: string }
+
 // Caluclate road bike size, based on road alpha sizing and focus on inseam in inches
-export function getRoadSize(inseam: number) {
+export function getRoadSize(inseam: number): BikeSize {
   let calculatedSize = { alphaSize: '', cmSize: '' }
 
   if (inseam >= 26 && inseam < 29) {
@@ -24,7 +26,7 @@ export function getRoadSize(inseam: number) {
 }
 
 // Caluclate mountain bike size, based on height in inches
-export function getMtbSize(height: number) {
+export function getMtbSize(height: number): BikeSize {
   let calculatedSize = { alphaSize: '' }
 
   if (height >= 61 && height < 65) {
@@ -44,7 +46,7 @@ export function getMtbSize(height: number) {
 }
 
 // Caluclate city/hybrid bike size, based on height in inches
-export function getCitySize(height: number) {
+export function getCitySize(height: number): BikeSize {
   let calculatedSize = { alphaSize: '' }
 
   if (height >= 61 && height < 65) {
