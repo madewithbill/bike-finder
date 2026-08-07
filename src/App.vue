@@ -65,12 +65,22 @@ onMounted(() => {
 </script>
 
 <template>
+  <!--Once the project adds routing for multiple pages, a backToTop ref on a span should be incorporated as well.-->
+  <ul class="z-999 relative">
+    <li class="before:content-none!">
+      <a
+        href="#main"
+        class="whitespace-nowrap my-[1em] mx-auto top-0 fixed left-[50%] -ml-18 opacity-0 focus:opacity-100 focus:bg-neutral-950 focus:text-white focus:p-2"
+        >Skip to main content</a
+      >
+    </li>
+  </ul>
   <header
     class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-200 fixed z-100 w-full bg-white"
   >
     <NavLogo class="w-30" />
   </header>
-  <main>
+  <main id="main">
     <section class="w-full grid lg:grid-cols-2 items-start">
       <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden lg:block sticky top-12">
         <HeroImage :type="currentType" />
