@@ -12,7 +12,13 @@ function formatPrice(price: number) {
 
 <template>
   <div class="relative">
-    <a href="" :aria-label="bike.name" class="absolute inset-0 z-1"></a>
+    <a
+      @click.prevent
+      href="#"
+      aria-disabled="true"
+      :aria-label="bike.name"
+      class="absolute inset-0 z-1"
+    ></a>
     <div class="bg-neutral-100/80 p-6 pt-0 rounded-sm relative aspect-4/3">
       <img v-if="bike.main_image" :src="bike.main_image" alt="" class="" />
       <span

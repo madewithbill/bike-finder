@@ -206,8 +206,11 @@ onMounted(() => {
               <ul aria-labelledby="notes" class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
                   <li
-                    >See our <a class="text-link" href="">measuremment guide</a> to ensure you are
-                    capturing your inseam correctly.</li
+                    >See our
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link"
+                      >measurement guide</a
+                    >
+                    to ensure you are capturing your inseam correctly.</li
                   >
                 </template>
                 <template v-else-if="currentType === 'MTB'">
@@ -291,7 +294,8 @@ onMounted(() => {
               </div>
               <p v-else class="text-lg text-neutral-950/50 mt-2"
                 >No matching bikes found. For more choices,
-                <a href="" class="text-link">shop all bikes</a>.</p
+                <a @click.prevent href="#" aria-disabled="true" class="text-link">shop all bikes</a
+                >.</p
               >
             </div>
           </div>
