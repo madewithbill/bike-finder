@@ -20,15 +20,15 @@ body {
   @apply text-neutral-600/80  overscroll-none;
 }
 
-label.base-label,
-input:not(.type-input) {
-  @apply px-3 h-12 w-full;
+div.input-wrapper {
+  @apply px-3 h-12 w-full flex flex-col pt-1 relative;
 }
+
 label.base-label {
-  @apply flex flex-col text-sm text-neutral-500 pt-1 relative;
+  @apply text-sm text-neutral-500;
 }
 input:not(.type-input) {
-  @apply border border-neutral-400 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4 disabled:opacity-20 disabled:bg-neutral-300 outline-hidden focus-visible:border-neutral-950 focus-visible:border-2;
+  @apply border border-neutral-400 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4.5 px-3 disabled:opacity-20 disabled:bg-neutral-300 outline-hidden focus-visible:border-neutral-950 focus-visible:border-2;
 }
 
 button,
