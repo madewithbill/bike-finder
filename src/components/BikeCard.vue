@@ -17,7 +17,7 @@ function formatPrice(price: number) {
       href="#"
       aria-disabled="true"
       :aria-label="bike.name"
-      class="absolute inset-0 z-1"
+      class="absolute inset-0 z-1 outline-hidden focus-visible:border-2 focus-visible:border-neutral-950 focus-visible:rounded-sm"
     ></a>
     <div class="bg-neutral-100/80 p-6 pt-0 rounded-sm relative aspect-4/3">
       <img v-if="bike.main_image" :src="bike.main_image" alt="" class="" />
