@@ -107,6 +107,8 @@ onMounted(() => {
                 <button
                   v-for="bike in bikeTypes"
                   @click="selectType(bike)"
+                  :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
+                  :aria-pressed="bike === currentType"
                   class="px-4 py-2 rounded-sm"
                   :class="
                     currentType === bike
@@ -174,10 +176,10 @@ onMounted(() => {
               >Recommended size</span
             >
             <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
-              <div class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
+              <div aria-live="polite" class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
                 <span v-if="currentSize.alphaSize">{{ currentSize.alphaSize }}</span>
                 <template v-else>
-                  <span class="text-neutral-950/50">N/A</span>
+                  <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
                   <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
                     >Oh no! We couldn't find a match! <a class="text-link">Contact support</a> for
                     direct help.</p
@@ -192,9 +194,9 @@ onMounted(() => {
             </div>
             <div>
               <div class="heading-group">
-                <h3>Sizing Notes</h3>
+                <h3 id="notes">Sizing Notes</h3>
               </div>
-              <ul class="flex flex-col gap-2 text-neutral-700">
+              <ul aria-labelledby="notes" class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
                   <li
                     >See our <a class="text-link" href="">measuremment guide</a> to ensure you are
@@ -241,6 +243,7 @@ onMounted(() => {
               <div v-if="currentBikeList.length > 2">
                 <button
                   @click="scrollPrev"
+                  aria-label="Previous slide"
                   class="embla__prev rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200 mr-2"
                 >
                   <svg
@@ -257,6 +260,7 @@ onMounted(() => {
                 </button>
                 <button
                   @click="scrollNext"
+                  aria-label="Next slide"
                   class="embla__next rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
