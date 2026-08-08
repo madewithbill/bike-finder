@@ -318,19 +318,16 @@ onMounted(() => {
 .embla {
   --slide-size: 50%;
   --slide-spacing: 1rem;
-  --container-padding: 3px;
 }
 
 .embla__viewport {
   overflow: hidden;
-  margin-inline: calc(var(--container-padding) * -1);
 }
 
 .embla__container {
   display: flex;
   touch-action: pan-y pinch-zoom;
   margin-left: calc(var(--slide-spacing) * -1);
-  padding: var(--container-padding);
 }
 
 .embla__slide {
