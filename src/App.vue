@@ -181,8 +181,9 @@ onMounted(() => {
           </div>
 
           <div class="px-6 py-4 border border-neutral-800 rounded-sm">
-            <span class="uppercase text-xs font-mono text-neutral-500 mb-3 tracking-wider"
-              >Recommended size</span
+            <h3
+              class="size-heading uppercase text-xs font-mono text-neutral-500 mt-1.5 mb-0.5 tracking-wider"
+              >Recommended size</h3
             >
             <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
               <div aria-live="polite" class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
@@ -210,7 +211,7 @@ onMounted(() => {
             </div>
             <div>
               <div class="heading-group">
-                <h3 id="notes">Sizing Notes</h3>
+                <h4 id="notes">Sizing Notes</h4>
               </div>
               <ul aria-labelledby="notes" class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
@@ -218,8 +219,7 @@ onMounted(() => {
                     >See our
                     <a @click.prevent href="#" aria-disabled="true" class="text-link"
                       >measurement guide</a
-                    >
-                    to ensure you are capturing your inseam correctly.</li
+                    >to ensure you are capturing your inseam correctly.</li
                   >
                 </template>
                 <template v-else-if="currentType === 'MTB'">
