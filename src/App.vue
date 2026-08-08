@@ -190,8 +190,11 @@ onMounted(() => {
                 <template v-else>
                   <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
                   <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
-                    >Oh no! We couldn't find a match! <a class="text-link">Contact support</a> for
-                    direct help.</p
+                    >Oh no! We couldn't find a match!
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link"
+                      >Contact support</a
+                    >
+                    for direct help.</p
                   >
                 </template>
               </div>
