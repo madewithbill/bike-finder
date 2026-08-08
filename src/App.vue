@@ -186,7 +186,11 @@ onMounted(() => {
             >
             <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
               <div aria-live="polite" class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
-                <span v-if="currentSize.alphaSize">{{ currentSize.alphaSize }}</span>
+                <template v-if="currentSize.alphaSize">
+                  <span aria-hidden="true">{{ currentSize.alphaSize }}</span>
+                  <span class="sr-only">Recommended size is {{ currentSize.ariaLabel }}</span>
+                </template>
+
                 <template v-else>
                   <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
                   <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
