@@ -99,27 +99,34 @@ onMounted(() => {
           </div>
 
           <div class="rounded-md grid grid-cols-1 gap-6 mb-12">
-            <div>
-              <div class="heading-group">
-                <h3>Bike type</h3>
-              </div>
+            <fieldset>
+              <legend>
+                <h3 class="heading-group">Bike type</h3>
+              </legend>
               <div class="grid grid-cols-3 gap-1.5">
-                <button
-                  v-for="bike in bikeTypes"
-                  @click="selectType(bike)"
-                  :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
-                  :aria-pressed="bike === currentType"
-                  class="px-4 py-2 rounded-sm"
-                  :class="
-                    currentType === bike
-                      ? 'bg-neutral-950 text-white'
-                      : 'bg-neutral-200/75 text-black hover:bg-neutral-200'
-                  "
-                >
-                  {{ bike }}
-                </button>
+                <div v-for="bike in bikeTypes" :key="bike" class="relative">
+                  <label
+                    :for="bike"
+                    :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
+                    class="label-btn relative z-2 px-4 py-2 rounded-sm block text-center"
+                    :class="
+                      currentType === bike
+                        ? 'bg-neutral-950 text-white'
+                        : 'bg-neutral-200/75 text-black hover:bg-neutral-200'
+                    "
+                    >{{ bike }}</label
+                  >
+                  <input
+                    :id="bike"
+                    name="bike-type"
+                    type="radio"
+                    v-model="currentType"
+                    :value="bike"
+                    class="type-input appearance-none absolute -inset-0.75 rounded-sm outline-hidden focus-visible:border-2 focus-visible:border-neutral-950"
+                  />
+                </div>
               </div>
-            </div>
+            </fieldset>
             <div>
               <div class="heading-group">
                 <h3>Measurements</h3>
@@ -134,7 +141,7 @@ onMounted(() => {
               </div>
               <fieldset class="grid grid-cols-2 gap-1 mb-2">
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
-                <label
+                <label class="base-label"
                   >Feet
                   <input
                     v-model.number="currentFeet"
@@ -143,7 +150,7 @@ onMounted(() => {
                     :disabled="currentType === 'Road'"
                   />
                 </label>
-                <label
+                <label class="base-label"
                   >Inches
                   <input
                     v-model.number="currentInches"
@@ -157,7 +164,7 @@ onMounted(() => {
               </fieldset>
               <fieldset>
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
-                <label
+                <label class="base-label"
                   >Inches
                   <input
                     v-model.number="currentInseam"
