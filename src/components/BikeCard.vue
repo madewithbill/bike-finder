@@ -28,9 +28,11 @@ function formatPrice(price: number) {
       >
     </div>
     <div class="py-4 max-md:text-sm">
-      <span class="block font-semibold leading-tight text-neutral-800 tracking-tight">{{
-        bike.name
-      }}</span>
+      <span
+        aria-hidden="true"
+        class="block font-semibold leading-tight text-neutral-800 tracking-tight"
+        >{{ bike.name }}</span
+      >
       <span v-if="bike.sale_price" class="mr-2 text-red-700">{{
         formatPrice(bike.sale_price)
       }}</span>

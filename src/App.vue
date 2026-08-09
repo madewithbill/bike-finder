@@ -107,7 +107,7 @@ onMounted(() => {
                 <div v-for="bike in bikeTypes" :key="bike" class="relative">
                   <label
                     :for="bike"
-                    :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
+                    aria-hidden="true"
                     class="label-btn relative z-2 px-4 py-2 rounded-sm block text-center"
                     :class="
                       currentType === bike
@@ -118,6 +118,7 @@ onMounted(() => {
                   >
                   <input
                     :id="bike"
+                    :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
                     name="bike-type"
                     type="radio"
                     v-model="currentType"
@@ -203,16 +204,20 @@ onMounted(() => {
                 </template>
               </div>
 
-              <span class="text-neutral-500" v-if="currentSize.alphaSize && currentType === 'Road'">
+              <span
+                aria-hidden="true"
+                class="text-neutral-500"
+                v-if="currentSize.alphaSize && currentType === 'Road'"
+              >
                 <span class="mr-0.5">/</span>
                 {{ currentSize.cmSize }}cm
               </span>
             </div>
             <div>
               <div class="heading-group">
-                <h4 id="notes">Sizing Notes</h4>
+                <h4>Sizing Notes</h4>
               </div>
-              <ul aria-labelledby="notes" class="flex flex-col gap-2 text-neutral-700">
+              <ul class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
                   <li
                     >Ensure you are capturing your inseam correctly.
