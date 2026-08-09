@@ -80,8 +80,8 @@ onMounted(() => {
   >
     <NavLogo class="w-30" />
   </header>
-  <main id="main">
-    <section class="w-full grid lg:grid-cols-2 items-start">
+  <main id="main" aria-labelledby="main-heading">
+    <div class="w-full grid lg:grid-cols-2 items-start">
       <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden lg:block sticky top-12">
         <HeroImage :type="currentType" />
       </div>
@@ -89,13 +89,13 @@ onMounted(() => {
         class="px-4 sm:px-8 py-12 w-full max-w-200 justify-self-center grid grid-cols-1 gap-8 mt-8 sm:mt-10"
       >
         <div>
-          <h1>Find your next ride.</h1>
+          <h1 id="main-heading">Find your next ride.</h1>
           <p>See your recommended size and shop available bikes.</p>
         </div>
         <Divider />
-        <div>
+        <section aria-labelledby="calc-heading">
           <div class="heading-group">
-            <h2>Calculate bike size</h2>
+            <h2 id="calc-heading">Calculate bike size</h2>
           </div>
 
           <div class="rounded-md grid grid-cols-1 gap-6 mb-12">
@@ -251,14 +251,14 @@ onMounted(() => {
               </ul>
             </div>
           </div>
-        </div>
+        </section>
 
         <Divider />
         <!-- Carousel for shopping bikes of the current type -->
-        <div>
+        <section aria-labelledby="shop-heading">
           <div class="embla">
             <div class="heading-group flex items-center justify-between">
-              <h2>Shop related bikes</h2>
+              <h2 id="shop-heading">Shop related bikes</h2>
               <div v-if="currentBikeList.length > 2">
                 <button
                   @click="scrollPrev"
@@ -308,9 +308,9 @@ onMounted(() => {
               >
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
   </main>
 </template>
 

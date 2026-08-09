@@ -11,7 +11,7 @@ function formatPrice(price: number) {
 </script>
 
 <template>
-  <div class="relative">
+  <figure class="relative">
     <a
       @click.prevent
       href="#"
@@ -38,5 +38,5 @@ function formatPrice(price: number) {
         formatPrice(bike.price)
       }}</span>
     </div>
-  </div>
+  </figure>
 </template>
