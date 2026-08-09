@@ -143,20 +143,20 @@ onMounted(() => {
               <fieldset class="grid grid-cols-2 gap-1 mb-2">
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
                 <div class="input-wrapper">
-                  <label for="feet" class="base-label">Feet </label>
+                  <label for="height-ft" class="base-label">Feet </label>
                   <input
                     v-model.number="currentFeet"
-                    id="feet"
+                    id="height-ft"
                     name="feet"
                     type="number"
                     :disabled="currentType === 'Road'"
                   />
                 </div>
                 <div class="input-wrapper">
-                  <label for="inches" class="base-label">Inches </label>
+                  <label for="height-in" class="base-label">Inches </label>
                   <input
                     v-model.number="currentInches"
-                    id="inches"
+                    id="height-in"
                     name="inches"
                     type="number"
                     min="0"
@@ -168,8 +168,9 @@ onMounted(() => {
               <fieldset>
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
                 <div class="input-wrapper">
-                  <label class="base-label">Inches </label>
+                  <label for="inseam" class="base-label">Inches </label>
                   <input
+                    id="inseam"
                     v-model.number="currentInseam"
                     name="inseam"
                     type="number"
