@@ -196,11 +196,10 @@ onMounted(() => {
                   <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
                   <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
                     >Oh no! We couldn't find a match!
-                    <a @click.prevent href="#" aria-disabled="true" class="text-link"
-                      >Contact support</a
-                    >
-                    for direct help.</p
-                  >
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                      Contact support for direct help.
+                    </a>
+                  </p>
                 </template>
               </div>
 
@@ -216,11 +215,11 @@ onMounted(() => {
               <ul aria-labelledby="notes" class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
                   <li
-                    >See our
-                    <a @click.prevent href="#" aria-disabled="true" class="text-link"
-                      >measurement guide</a
-                    >to ensure you are capturing your inseam correctly.</li
-                  >
+                    >Ensure you are capturing your inseam correctly.
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                      See our measurement guide for details.
+                    </a>
+                  </li>
                 </template>
                 <template v-else-if="currentType === 'MTB'">
                   <li
@@ -302,10 +301,11 @@ onMounted(() => {
                 </div>
               </div>
               <p v-else class="text-lg text-neutral-950/50 mt-2"
-                >No matching bikes found. For more choices,
-                <a @click.prevent href="#" aria-disabled="true" class="text-link">shop all bikes</a
-                >.</p
-              >
+                >No matching bikes found.
+                <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                  Shop the rest of our inventory.
+                </a>
+              </p>
             </div>
           </div>
         </section>
