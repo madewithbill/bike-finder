@@ -65,13 +65,23 @@ onMounted(() => {
 </script>
 
 <template>
+  <!--Once the project adds routing for multiple pages, a backToTop ref on a span should be incorporated as well.-->
+  <ul class="z-999 relative">
+    <li class="before:content-none!">
+      <a
+        href="#main"
+        class="whitespace-nowrap my-[1em] mx-auto top-0 fixed left-[50%] -ml-18 opacity-0 focus:opacity-100 focus:bg-neutral-950 focus:text-white focus:p-2"
+        >Skip to main content</a
+      >
+    </li>
+  </ul>
   <header
     class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-200 fixed z-100 w-full bg-white"
   >
     <NavLogo class="w-30" />
   </header>
-  <main>
-    <section class="w-full grid lg:grid-cols-2 items-start">
+  <main id="main" aria-labelledby="main-heading">
+    <div class="w-full grid lg:grid-cols-2 items-start">
       <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden lg:block sticky top-12">
         <HeroImage :type="currentType" />
       </div>
@@ -79,35 +89,45 @@ onMounted(() => {
         class="px-4 sm:px-8 py-12 w-full max-w-200 justify-self-center grid grid-cols-1 gap-8 mt-8 sm:mt-10"
       >
         <div>
-          <h1>Find your next ride.</h1>
+          <h1 id="main-heading">Find your next ride.</h1>
           <p>See your recommended size and shop available bikes.</p>
         </div>
         <Divider />
-        <div>
+        <section aria-labelledby="calc-heading">
           <div class="heading-group">
-            <h2>Calculate bike size</h2>
+            <h2 id="calc-heading">Calculate bike size</h2>
           </div>
 
           <div class="rounded-md grid grid-cols-1 gap-6 mb-12">
-            <div>
-              <div class="heading-group">
-                <h3>Bike type</h3>
-              </div>
+            <fieldset>
+              <legend>
+                <h3 class="heading-group">Bike type</h3>
+              </legend>
               <div class="grid grid-cols-3 gap-1.5">
-                <button
-                  v-for="bike in bikeTypes"
-                  @click="selectType(bike)"
-                  class="px-4 py-2 rounded-sm"
-                  :class="
-                    currentType === bike
-                      ? 'bg-neutral-950 text-white'
-                      : 'bg-neutral-200/75 text-black hover:bg-neutral-200'
-                  "
-                >
-                  {{ bike }}
-                </button>
+                <div v-for="bike in bikeTypes" :key="bike" class="relative">
+                  <label
+                    :for="bike"
+                    aria-hidden="true"
+                    class="label-btn relative z-2 px-4 py-2 rounded-sm block text-center"
+                    :class="
+                      currentType === bike
+                        ? 'bg-neutral-950 text-white'
+                        : 'bg-neutral-200/75 text-black hover:bg-neutral-200'
+                    "
+                    >{{ bike }}</label
+                  >
+                  <input
+                    :id="bike"
+                    :aria-label="bike === 'MTB' ? 'Mountain Bike' : bike"
+                    name="bike-type"
+                    type="radio"
+                    v-model="currentType"
+                    :value="bike"
+                    class="type-input appearance-none absolute -inset-0.75 rounded-sm outline-hidden focus-visible:border-2 focus-visible:border-neutral-950"
+                  />
+                </div>
               </div>
-            </div>
+            </fieldset>
             <div>
               <div class="heading-group">
                 <h3>Measurements</h3>
@@ -122,74 +142,90 @@ onMounted(() => {
               </div>
               <fieldset class="grid grid-cols-2 gap-1 mb-2">
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
-                <label
-                  >Feet
+                <div class="input-wrapper">
+                  <label for="height-ft" class="base-label">Feet </label>
                   <input
                     v-model.number="currentFeet"
+                    id="height-ft"
                     name="feet"
                     type="number"
                     :disabled="currentType === 'Road'"
                   />
-                </label>
-                <label
-                  >Inches
+                </div>
+                <div class="input-wrapper">
+                  <label for="height-in" class="base-label">Inches </label>
                   <input
                     v-model.number="currentInches"
+                    id="height-in"
                     name="inches"
                     type="number"
                     min="0"
                     max="11"
                     :disabled="currentType === 'Road'"
                   />
-                </label>
+                </div>
               </fieldset>
               <fieldset>
                 <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
-                <label
-                  >Inches
+                <div class="input-wrapper">
+                  <label for="inseam" class="base-label">Inches </label>
                   <input
+                    id="inseam"
                     v-model.number="currentInseam"
                     name="inseam"
                     type="number"
                     step="0.1"
                     :disabled="currentType !== 'Road'"
                   />
-                </label>
+                </div>
               </fieldset>
             </div>
           </div>
 
           <div class="px-6 py-4 border border-neutral-800 rounded-sm">
-            <span class="uppercase text-xs font-mono text-neutral-500 mb-3 tracking-wider"
-              >Recommended size</span
+            <h3
+              class="size-heading uppercase text-xs font-mono text-neutral-500 mt-1.5 mb-0.5 tracking-wider"
+              >Recommended size</h3
             >
             <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
-              <div class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
-                <span v-if="currentSize.alphaSize">{{ currentSize.alphaSize }}</span>
+              <div aria-live="polite" class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
+                <template v-if="currentSize.alphaSize">
+                  <span aria-hidden="true">{{ currentSize.alphaSize }}</span>
+                  <span class="sr-only">Recommended size is {{ currentSize.ariaLabel }}</span>
+                </template>
+
                 <template v-else>
-                  <span class="text-neutral-950/50">N/A</span>
+                  <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
                   <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
-                    >Oh no! We couldn't find a match! <a class="text-link">Contact support</a> for
-                    direct help.</p
-                  >
+                    >Oh no! We couldn't find a match!
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                      Contact support for direct help.
+                    </a>
+                  </p>
                 </template>
               </div>
 
-              <span class="text-neutral-500" v-if="currentSize.alphaSize && currentType === 'Road'">
+              <span
+                aria-hidden="true"
+                class="text-neutral-500"
+                v-if="currentSize.alphaSize && currentType === 'Road'"
+              >
                 <span class="mr-0.5">/</span>
                 {{ currentSize.cmSize }}cm
               </span>
             </div>
             <div>
               <div class="heading-group">
-                <h3>Sizing Notes</h3>
+                <h4>Sizing Notes</h4>
               </div>
               <ul class="flex flex-col gap-2 text-neutral-700">
                 <template v-if="currentType === 'Road'">
                   <li
-                    >See our <a class="text-link" href="">measuremment guide</a> to ensure you are
-                    capturing your inseam correctly.</li
-                  >
+                    >Ensure you are capturing your inseam correctly.
+                    <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                      See our measurement guide for details.
+                    </a>
+                  </li>
                 </template>
                 <template v-else-if="currentType === 'MTB'">
                   <li
@@ -220,17 +256,18 @@ onMounted(() => {
               </ul>
             </div>
           </div>
-        </div>
+        </section>
 
         <Divider />
         <!-- Carousel for shopping bikes of the current type -->
-        <div>
+        <section aria-labelledby="shop-heading">
           <div class="embla">
             <div class="heading-group flex items-center justify-between">
-              <h2>Shop related bikes</h2>
+              <h2 id="shop-heading">Shop related bikes</h2>
               <div v-if="currentBikeList.length > 2">
                 <button
                   @click="scrollPrev"
+                  aria-label="Previous slide"
                   class="embla__prev rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200 mr-2"
                 >
                   <svg
@@ -247,6 +284,7 @@ onMounted(() => {
                 </button>
                 <button
                   @click="scrollNext"
+                  aria-label="Next slide"
                   class="embla__next rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -269,14 +307,16 @@ onMounted(() => {
                 </div>
               </div>
               <p v-else class="text-lg text-neutral-950/50 mt-2"
-                >No matching bikes found. For more choices,
-                <a href="" class="text-link">shop all bikes</a>.</p
-              >
+                >No matching bikes found.
+                <a @click.prevent href="#" aria-disabled="true" class="text-link">
+                  Shop the rest of our inventory.
+                </a>
+              </p>
             </div>
           </div>
-        </div>
+        </section>
       </div>
-    </section>
+    </div>
   </main>
 </template>
 

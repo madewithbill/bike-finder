@@ -8,6 +8,6 @@ import cityImg from '../assets/images/city-hybrid-bike-hero.avif'
 
 <template>
   <img v-if="props.type === 'Road'" :src="roadImg" alt="" class="size-full object-cover" />
-  <img v-if="props.type === 'MTB'" :src="mtbImg" alt="" class="size-full object-cover" />
-  <img v-if="props.type === 'City'" :src="cityImg" alt="" class="size-full object-cover" />
+  <img v-else-if="props.type === 'MTB'" :src="mtbImg" alt="" class="size-full object-cover" />
+  <img v-else-if="props.type === 'City'" :src="cityImg" alt="" class="size-full object-cover" />
 </template>
