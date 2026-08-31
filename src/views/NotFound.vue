@@ -1,0 +1,3 @@
+<template>
+  <h1 class="text-red-500!">Not found</h1>
+</template>
