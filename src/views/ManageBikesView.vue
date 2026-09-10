@@ -11,7 +11,7 @@ const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
 //add bike refs
 // const newBikeId = computed(() => bikes.value?.length)
 const bikeName = ref('')
-const bikePrice = ref<number>()
+const bikePrice = ref('')
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('')
 const bikeImage = ref<File>()
@@ -53,7 +53,7 @@ async function addBike() {
   const { data, error } = await supabase.from('bikes').insert({
     name: bikeName.value,
     bike_type: currentType.value,
-    price: bikePrice.value ?? 0,
+    price: Number(bikePrice.value) ?? 0,
     in_stock: true,
     main_image: bikeImageUrl.value,
     on_sale: false,
@@ -97,14 +97,20 @@ async function onSubmit() {
       </select>
     </div>
     <div class="input-wrapper">
-      <label for="">Price</label>
+      <label for="price">Price</label>
       <input
-        v-model.number.lazy="bikePrice"
-        type="number"
+        @keydown.prevent="
+          (e) => {
+            if (Number(e.key)) {
+              bikePrice += e.key
+            }
+          }
+        "
+        :value="formatPrice(Number(bikePrice))"
+        type="text"
+        inputmode="numeric"
         name=""
-        id=""
-        step="0.01"
-        placeholder="1500"
+        id="price"
       />
     </div>
     <div class="input-wrapper">
