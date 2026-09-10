@@ -66,27 +66,27 @@ onMounted(() => {
 
 <template>
   <!--Once the project adds routing for multiple pages, a backToTop ref on a span should be incorporated as well.-->
-  <ul class="z-999 relative">
+  <ul class="relative z-999">
     <li class="before:content-none!">
       <a
         href="#main"
-        class="whitespace-nowrap my-[1em] mx-auto top-0 fixed left-[50%] -ml-18 opacity-0 focus:opacity-100 focus:bg-neutral-950 focus:text-white focus:p-2"
+        class="fixed top-0 left-[50%] mx-auto my-[1em] -ml-18 whitespace-nowrap opacity-0 focus:bg-neutral-950 focus:p-2 focus:text-white focus:opacity-100"
         >Skip to main content</a
       >
     </li>
   </ul>
   <header
-    class="uppercase px-4 h-12 font-semibold flex items-center border-b border-b-neutral-200 fixed z-100 w-full bg-white"
+    class="fixed z-100 flex h-12 w-full items-center border-b border-b-neutral-200 bg-white px-4 font-semibold uppercase"
   >
     <NavLogo class="w-30" />
   </header>
   <main id="main" aria-labelledby="main-heading">
-    <div class="w-full grid lg:grid-cols-2 items-start">
-      <div class="bg-neutral-100 h-[calc(100dvh-3rem)] mt-12 hidden lg:block sticky top-12">
+    <div class="grid w-full items-start lg:grid-cols-2">
+      <div class="sticky top-12 mt-12 hidden h-[calc(100dvh-3rem)] bg-neutral-100 lg:block">
         <HeroImage :type="currentType" />
       </div>
       <div
-        class="px-4 sm:px-8 py-12 w-full max-w-200 justify-self-center grid grid-cols-1 gap-8 mt-8 sm:mt-10"
+        class="mt-8 grid w-full max-w-200 grid-cols-1 gap-8 justify-self-center px-4 py-12 sm:mt-10 sm:px-8"
       >
         <div>
           <h1 id="main-heading">Find your next ride.</h1>
@@ -98,7 +98,7 @@ onMounted(() => {
             <h2 id="calc-heading">Calculate bike size</h2>
           </div>
 
-          <div class="rounded-md grid grid-cols-1 gap-6 mb-12">
+          <div class="mb-12 grid grid-cols-1 gap-6 rounded-md">
             <fieldset>
               <legend>
                 <h3 class="heading-group">Bike type</h3>
@@ -108,7 +108,7 @@ onMounted(() => {
                   <label
                     :for="bike"
                     aria-hidden="true"
-                    class="label-btn relative z-2 px-4 py-2 rounded-sm block text-center"
+                    class="label-btn relative z-2 block rounded-sm px-4 py-2 text-center"
                     :class="
                       currentType === bike
                         ? 'bg-neutral-950 text-white'
@@ -123,7 +123,7 @@ onMounted(() => {
                     type="radio"
                     v-model="currentType"
                     :value="bike"
-                    class="type-input appearance-none absolute -inset-0.75 rounded-sm outline-hidden focus-visible:border-2 focus-visible:border-neutral-950"
+                    class="type-input absolute -inset-0.75 appearance-none rounded-sm outline-hidden focus-visible:border-2 focus-visible:border-neutral-950"
                   />
                 </div>
               </div>
@@ -133,15 +133,15 @@ onMounted(() => {
                 <h3>Measurements</h3>
                 <p
                   v-if="currentType === 'Road'"
-                  class="text-sm italic text-neutral-600 leading-none mt-1"
+                  class="mt-1 text-sm leading-none text-neutral-600 italic"
                   >Your size will be calculated by your inseam.</p
                 >
-                <p v-else class="text-sm italic text-neutral-600 leading-none mt-1"
+                <p v-else class="mt-1 text-sm leading-none text-neutral-600 italic"
                   >Your size will be calculated by your height.</p
                 >
               </div>
-              <fieldset class="grid grid-cols-2 gap-1 mb-2">
-                <legend class="mb-1 text-neutral-700 text-sm font-medium">Height</legend>
+              <fieldset class="mb-2 grid grid-cols-2 gap-1">
+                <legend class="mb-1 text-sm font-medium text-neutral-700">Height</legend>
                 <div class="input-wrapper">
                   <label for="height-ft" class="base-label">Feet </label>
                   <input
@@ -166,7 +166,7 @@ onMounted(() => {
                 </div>
               </fieldset>
               <fieldset>
-                <legend class="mb-1 text-neutral-700 text-sm font-medium">Inseam</legend>
+                <legend class="mb-1 text-sm font-medium text-neutral-700">Inseam</legend>
                 <div class="input-wrapper">
                   <label for="inseam" class="base-label">Inches </label>
                   <input
@@ -182,13 +182,13 @@ onMounted(() => {
             </div>
           </div>
 
-          <div class="px-6 py-4 border border-neutral-800 rounded-sm">
+          <div class="rounded-sm border border-neutral-800 px-6 py-4">
             <h3
-              class="size-heading uppercase text-xs font-mono text-neutral-500 mt-1.5 mb-0.5 tracking-wider"
+              class="size-heading mt-1.5 mb-0.5 font-mono text-xs tracking-wider text-neutral-500 uppercase"
               >Recommended size</h3
             >
-            <div class="flex items-baseline gap-2 font-semibold text-neutral-800 mb-6">
-              <div aria-live="polite" class="text-7xl sm:text-[6rem] leading-none text-neutral-950">
+            <div class="mb-6 flex items-baseline gap-2 font-semibold text-neutral-800">
+              <div aria-live="polite" class="text-7xl leading-none text-neutral-950 sm:text-[6rem]">
                 <template v-if="currentSize.alphaSize">
                   <span aria-hidden="true">{{ currentSize.alphaSize }}</span>
                   <span class="sr-only">Recommended size is {{ currentSize.ariaLabel }}</span>
@@ -196,7 +196,7 @@ onMounted(() => {
 
                 <template v-else>
                   <span aria-hidden="true" class="text-neutral-950/50">N/A</span>
-                  <p class="text-neutral-950 text-base font-medium leading-tight mt-2"
+                  <p class="mt-2 text-base leading-tight font-medium text-neutral-950"
                     >Oh no! We couldn't find a match!
                     <a @click.prevent href="#" aria-disabled="true" class="text-link">
                       Contact support for direct help.
@@ -268,7 +268,7 @@ onMounted(() => {
                 <button
                   @click="scrollPrev"
                   aria-label="Previous slide"
-                  class="embla__prev rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200 mr-2"
+                  class="embla__prev mr-2 rounded-sm bg-neutral-200/75 p-2 text-black hover:cursor-pointer hover:bg-neutral-200"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -285,7 +285,7 @@ onMounted(() => {
                 <button
                   @click="scrollNext"
                   aria-label="Next slide"
-                  class="embla__next rounded-sm p-2 hover:cursor-pointer bg-neutral-200/75 text-black hover:bg-neutral-200"
+                  class="embla__next rounded-sm bg-neutral-200/75 p-2 text-black hover:cursor-pointer hover:bg-neutral-200"
                   ><svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="18"
@@ -306,7 +306,7 @@ onMounted(() => {
                   <BikeCard :bike="bike" />
                 </div>
               </div>
-              <p v-else class="text-lg text-neutral-950/50 mt-2"
+              <p v-else class="mt-2 text-lg text-neutral-950/50"
                 >No matching bikes found.
                 <a @click.prevent href="#" aria-disabled="true" class="text-link">
                   Shop the rest of our inventory.

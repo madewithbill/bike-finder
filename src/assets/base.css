@@ -17,23 +17,23 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-neutral-600/80  overscroll-none;
+  @apply overscroll-none text-neutral-600/80;
 }
 
 div.input-wrapper {
-  @apply px-3 h-12 w-full flex flex-col pt-1 relative;
+  @apply relative flex h-12 w-full flex-col px-3 pt-1;
 }
 
 label.base-label {
   @apply text-sm text-neutral-500;
 }
 input:not(.type-input) {
-  @apply border border-neutral-400 rounded-sm text-base text-neutral-800 absolute inset-0 pt-4.5 px-3 disabled:opacity-20 disabled:bg-neutral-300 outline-hidden focus-visible:border-neutral-950 focus-visible:border-2;
+  @apply absolute inset-0 rounded-sm border border-neutral-400 px-3 pt-4.5 text-base text-neutral-800 outline-hidden focus-visible:border-2 focus-visible:border-neutral-950 disabled:bg-neutral-300 disabled:opacity-20;
 }
 
 button,
 label.label-btn {
-  @apply hover:cursor-pointer transition-colors duration-300 font-medium;
+  @apply font-medium transition-colors duration-300 hover:cursor-pointer;
 }
 
 li {
@@ -41,11 +41,11 @@ li {
 }
 
 li::before {
-  @apply content-[''] inline-block size-1 bg-neutral-700 rounded-full absolute left-0 top-2.5;
+  @apply absolute top-2.5 left-0 inline-block size-1 rounded-full bg-neutral-700 content-[''];
 }
 
 a.text-link {
-  @apply underline hover:text-neutral-950 hover:cursor-pointer;
+  @apply underline hover:cursor-pointer hover:text-neutral-950;
 }
 
 .heading-group {
@@ -61,14 +61,14 @@ h4 {
 }
 
 h1 {
-  @apply text-2xl sm:text-3xl font-semibold mb-2 text-neutral-950;
+  @apply mb-2 text-2xl font-semibold text-neutral-950 sm:text-3xl;
 }
 
 h2 {
-  @apply text-xl sm:text-2xl font-medium text-neutral-700;
+  @apply text-xl font-medium text-neutral-700 sm:text-2xl;
 }
 
 h3:not(.size-heading),
 h4 {
-  @apply font-medium text-lg text-neutral-950;
+  @apply text-lg font-medium text-neutral-950;
 }
