@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 
-import type { Events, Ref } from 'vue'
+import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
 
 const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
 
-//add bike refs
-// const newBikeId = computed(() => bikes.value?.length)
+// Add bike refs
 const bikeName = ref('')
 const bikePrice = ref('')
 const bikeTypes = ['Road', 'MTB', 'City']
@@ -26,29 +25,26 @@ onMounted(() => {
   getBikes()
 })
 
-function onChange(e: Event) {
-  console.log((e.target as HTMLInputElement).files)
+// Capture image file ref to ready for upload
+function setBikeImage(e: Event) {
+  const imageInput = e.target as HTMLInputElement
+  bikeImage.value = imageInput.files?.[0]
 }
 
-// Upload file using standard upload
+// Upload file to Supabase Storage using standard upload
 async function uploadFile(file: File) {
   const bikes = supabase.storage.from('bikes')
   const { data, error } = await bikes.upload(`${file.name}`, file)
   if (error) {
-    console.log(data, 'there was a problem')
     // Handle error
+    console.log(data, error)
   } else {
-    // console.log(bikes.getPublicUrl(`${file.name}`).data.publicUrl)
-    bikeImageUrl.value = bikes.getPublicUrl(`${file.name}`).data.publicUrl
     // Handle success
+    bikeImageUrl.value = bikes.getPublicUrl(`${file.name}`).data.publicUrl
   }
 }
 
-function setBikeImage(e: Event) {
-  const imageInput = e.target as HTMLInputElement
-  bikeImage.value = imageInput.files?.[0]
-  console.log(bikeImage.value)
-}
+// Add new row to bikes table
 async function addBike() {
   const { data, error } = await supabase.from('bikes').insert({
     name: bikeName.value,
@@ -63,9 +59,9 @@ async function addBike() {
     console.log(error)
   }
   getBikes()
-  console.log(data)
 }
 
+// Form sumbit action to upload image and add row to table
 async function onSubmit() {
   if (bikeImage.value) {
     uploadFile(bikeImage.value).then(() => addBike())
