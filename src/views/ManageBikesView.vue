@@ -72,13 +72,27 @@ async function onSubmit() {
 </script>
 <template>
   <h1>Manage bikes in the database</h1>
-  <div class="max-w-3xl"
-    ><div v-for="bike in bikes" class="flex">
-      <img v-if="bike.main_image" :src="bike.main_image" alt="" class="w-20 flex-none" />
-      <div>
-        <h2>{{ bike.name }}</h2>
-        <p>{{ formatPrice(bike.price) }}</p>
+  <div
+    ><div
+      v-for="bike in bikes"
+      class="flex items-center justify-between gap-6 border-b border-neutral-400 px-4 py-6"
+    >
+      <div class="flex shrink items-center gap-4 overflow-hidden">
+        <img
+          v-if="bike.main_image"
+          :src="bike.main_image"
+          alt=""
+          class="w-25 rounded-lg bg-neutral-100 p-3"
+        />
+        <div class="overflow-hidden">
+          <h2 class="mb-1 overflow-hidden text-base! text-nowrap text-ellipsis">{{ bike.name }}</h2>
+          <p class="text-sm">{{ formatPrice(bike.price) }}</p>
+        </div>
       </div>
+      <button
+        class="flex-none rounded-full border border-neutral-950/10 bg-neutral-200/75 px-3 py-1 text-sm text-black"
+        >Edit</button
+      >
     </div>
   </div>
   <form @submit.prevent="onSubmit">
