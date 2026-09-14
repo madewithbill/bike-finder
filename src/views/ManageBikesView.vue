@@ -85,12 +85,13 @@ async function onSubmit() {
           class="w-25 rounded-lg bg-neutral-100 p-3"
         />
         <div class="overflow-hidden">
-          <h2 class="mb-1 overflow-hidden text-base! text-nowrap text-ellipsis">{{ bike.name }}</h2>
-          <p class="text-sm">{{ formatPrice(bike.price) }}</p>
+          <h2 class="overflow-hidden text-base! text-nowrap text-ellipsis md:text-lg!">{{
+            bike.name
+          }}</h2>
+          <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
         </div>
       </div>
-      <button
-        class="flex-none rounded-full border border-neutral-950/10 bg-neutral-200/75 px-3 py-1 text-sm text-black"
+      <button class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
         >Edit</button
       >
     </div>
