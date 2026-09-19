@@ -2,6 +2,7 @@
 import { supabase } from '../utils/supabaseClient.ts'
 import { ref, onMounted } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
+import { createImgSrc } from '@/utils/imageSrc.ts'
 
 import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
@@ -13,8 +14,8 @@ const bikeName = ref('')
 const bikePrice = ref('')
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('')
-const bikeImage = ref<File>()
-const bikeImageUrl = ref('')
+const bikeImageFile = ref<File>()
+const bikeImagePath = ref('')
 
 async function getBikes() {
   const { data } = await supabase.from('bikes').select()
@@ -28,7 +29,7 @@ onMounted(() => {
 // Capture image file ref to ready for upload
 function setBikeImage(e: Event) {
   const imageInput = e.target as HTMLInputElement
-  bikeImage.value = imageInput.files?.[0]
+  bikeImageFile.value = imageInput.files?.[0]
 }
 
 // Upload file to Supabase Storage using standard upload
@@ -40,7 +41,7 @@ async function uploadFile(file: File) {
     console.log(data, error)
   } else {
     // Handle success
-    bikeImageUrl.value = bikes.getPublicUrl(`${file.name}`).data.publicUrl
+    bikeImagePath.value = file.name
   }
 }
 
@@ -51,7 +52,7 @@ async function addBike() {
     bike_type: currentType.value,
     price: Number(bikePrice.value) ?? 0,
     in_stock: true,
-    main_image: bikeImageUrl.value,
+    main_image: bikeImagePath.value,
     on_sale: false,
     sale_price: null,
   })
@@ -63,8 +64,8 @@ async function addBike() {
 
 // Form sumbit action to upload image and add row to table
 async function onSubmit() {
-  if (bikeImage.value) {
-    uploadFile(bikeImage.value).then(() => addBike())
+  if (bikeImageFile.value) {
+    uploadFile(bikeImageFile.value).then(() => addBike())
   } else {
     addBike()
   }
@@ -78,12 +79,9 @@ async function onSubmit() {
       class="flex items-center justify-between gap-6 border-b border-neutral-400 px-4 py-6"
     >
       <div class="flex shrink items-center gap-4 overflow-hidden">
-        <img
-          v-if="bike.main_image"
-          :src="bike.main_image"
-          alt=""
-          class="w-25 rounded-lg bg-neutral-100 p-3"
-        />
+          <div class="aspect-4/3 w-25 flex-none rounded-lg bg-neutral-100 p-3">
+            <img v-if="bike.main_image" :src="createImgSrc(bike.main_image)" alt="" />
+          </div>
         <div class="overflow-hidden">
           <h2 class="overflow-hidden text-base! text-nowrap text-ellipsis md:text-lg!">{{
             bike.name
@@ -124,6 +122,7 @@ async function onSubmit() {
         id="price"
       />
     </div>
+        <img class="mb-2 w-40" :src="bikeImagePath" alt="" />
     <div class="input-wrapper">
       <label for="">Main image</label>
       <input @change="setBikeImage" type="file" accept="image/*" />
