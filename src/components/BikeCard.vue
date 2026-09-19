@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const props = defineProps(['bike'])
+import { createImgSrc } from '@/utils/imageSrc.ts'
 
 function formatPrice(price: number) {
   return new Intl.NumberFormat('en-US', {
@@ -19,7 +20,12 @@ function formatPrice(price: number) {
       class="absolute inset-0 z-1 outline-hidden focus-visible:rounded-sm focus-visible:border-2 focus-visible:border-neutral-950"
     ></a>
     <div class="relative aspect-4/3 rounded-sm bg-neutral-100/80 p-6 pt-0">
-      <img v-if="bike.main_image" aria-hidden="true" :src="bike.main_image" :alt="bike.name" />
+      <img
+        v-if="bike.main_image"
+        aria-hidden="true"
+        :src="createImgSrc(bike.main_image)"
+        :alt="bike.name"
+      />
       <span
         v-if="bike.on_sale"
         class="absolute top-3 right-3 rounded-sm bg-red-700 px-2 py-1 text-xs font-semibold text-white uppercase"
