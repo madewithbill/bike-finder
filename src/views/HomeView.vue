@@ -65,29 +65,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <!--Once the project adds routing for multiple pages, a backToTop ref on a span should be incorporated as well.-->
-  <ul class="relative z-999">
-    <li class="before:content-none!">
-      <a
-        href="#main"
-        class="fixed top-0 left-[50%] mx-auto my-[1em] -ml-18 whitespace-nowrap opacity-0 focus:bg-neutral-950 focus:p-2 focus:text-white focus:opacity-100"
-        >Skip to main content</a
-      >
-    </li>
-  </ul>
-  <header
-    class="fixed z-100 flex h-12 w-full items-center border-b border-b-neutral-200 bg-white px-4 font-semibold uppercase"
-  >
-    <NavLogo class="w-30" />
-  </header>
   <main id="main" aria-labelledby="main-heading">
     <div class="grid w-full items-start lg:grid-cols-2">
-      <div class="sticky top-12 mt-12 hidden h-[calc(100dvh-3rem)] bg-neutral-100 lg:block">
+      <div class="sticky top-12 hidden h-[calc(100dvh-3rem)] bg-neutral-100 lg:block">
         <HeroImage :type="currentType" />
       </div>
-      <div
-        class="mt-8 grid w-full max-w-200 grid-cols-1 gap-8 justify-self-center px-4 py-12 sm:mt-10 sm:px-8"
-      >
+      <div class="grid w-full max-w-200 grid-cols-1 gap-8 justify-self-center px-4 py-12 sm:px-8">
         <div>
           <h1 id="main-heading">Find your next ride.</h1>
           <p>See your recommended size and shop available bikes.</p>
