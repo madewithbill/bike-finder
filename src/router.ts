@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter } from 'vue-router'
+import { supabase } from './utils/supabaseClient.ts'
 
 import HomeView from './views/HomeView.vue'
 import AdminView from './views/AdminView.vue'
@@ -17,6 +18,25 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+})
+
+router.beforeEach(async (to, from) => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  const isAuthenticated = user?.role === 'authenticated'
+
+  if (
+    // make sure the user is authenticated
+    !isAuthenticated &&
+    // Avoid an infinite redirect
+    to.name !== 'login' &&
+    // Allow nav to home
+    to.path !== '/'
+  ) {
+    // redirect the user to the login page
+    return { name: 'login' }
+  }
 })
 
 export default router
