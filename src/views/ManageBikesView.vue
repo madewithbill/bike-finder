@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, useTemplateRef } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 
@@ -10,12 +10,20 @@ import type { Tables } from '../utils/supabase.ts'
 const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
 
 // Add bike refs
+const bikeId = ref<number>()
 const bikeName = ref('')
 const bikePrice = ref('')
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('')
 const bikeImageFile = ref<File>()
 const bikeImagePath = ref('')
+
+// Add form refs
+const bikeFormWrapper = useTemplateRef('bikeFormWrapper')
+const formVisible = ref(false)
+const formHeading = ref('Add bike')
+const submitText = ref('Add bike')
+const editingBike = ref(false)
 
 async function getBikes() {
   const { data } = await supabase.from('bikes').select()
@@ -47,7 +55,8 @@ async function uploadFile(file: File) {
 
 // Add new row to bikes table
 async function addBike() {
-  const { data, error } = await supabase.from('bikes').insert({
+  const { data, error } = await supabase.from('bikes').upsert({
+    id: bikeId.value,
     name: bikeName.value,
     bike_type: currentType.value,
     price: Number(bikePrice.value) ?? 0,
@@ -62,6 +71,57 @@ async function addBike() {
   getBikes()
 }
 
+async function deleteBike() {
+  console.log('try delete')
+  if (bikeId.value) {
+    const { data, error } = await supabase.from('bikes').delete().eq('id', bikeId.value)
+    if (error) {
+      console.log(error)
+    }
+  }
+  if (bikeImagePath.value) {
+    const { data, error } = await supabase.storage.from('bikes').remove([bikeImagePath.value])
+    if (error) {
+      console.log(error)
+    }
+  }
+  formVisible.value = false
+  getBikes()
+}
+
+//Form fill
+async function setForm(id?: number) {
+  if (id) {
+    const { data } = await supabase.from('bikes').select().eq('id', id)
+    if (data) {
+      const currentBike = data[0]
+      bikeId.value = currentBike?.id
+      bikeName.value = currentBike?.name ?? ''
+      currentType.value = currentBike?.bike_type ?? ''
+      bikePrice.value = currentBike?.price.toString() ?? ''
+      bikeImagePath.value = currentBike?.main_image ?? ''
+    }
+    formHeading.value = 'Manage bike'
+    submitText.value = 'Update'
+    editingBike.value = true
+  } else {
+    formHeading.value = 'Add bike'
+    submitText.value = 'Add'
+    editingBike.value = false
+  }
+  formVisible.value = true
+}
+
+function resetForm() {
+  formVisible.value = false
+  bikeFormWrapper.value?.addEventListener('transitionend', () => {
+    bikeName.value = ''
+    currentType.value = ''
+    bikePrice.value = ''
+    bikeImagePath.value = ''
+  })
+}
+
 // Form sumbit action to upload image and add row to table
 async function onSubmit() {
   if (bikeImageFile.value) {
@@ -69,13 +129,17 @@ async function onSubmit() {
   } else {
     addBike()
   }
+  formVisible.value = false
 }
 </script>
 <template>
+  <main class="relative">
   <h1>Manage bikes in the database</h1>
+    <div>
+      <button @click="setForm()">Add a bike</button>
   <div
-    ><div
       v-for="bike in bikes"
+        :key="bike.id"
       class="flex items-center justify-between gap-6 border-b border-neutral-400 px-4 py-6"
     >
       <div class="flex shrink items-center gap-4 overflow-hidden">
@@ -89,12 +153,23 @@ async function onSubmit() {
           <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
         </div>
       </div>
-      <button class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
+        <button
+          @click="setForm(bike.id)"
+          class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
         >Edit</button
       >
     </div>
   </div>
+    <div
+      ref="bikeFormWrapper"
+      class="fixed bottom-0 z-1 w-full overflow-hidden rounded-t-2xl border border-neutral-950/20 bg-white px-4 py-8 shadow-2xl transition-transform duration-400 ease-in-out lg:bottom-[7.5dvh] lg:h-[85dvh] lg:max-w-xl lg:rounded-xl"
+      :class="[
+        formVisible ? 'lg:right-4' : 'max-lg:translate-y-full lg:right-0 lg:translate-x-full',
+      ]"
+    >
+      <button @click="resetForm" class="absolute top-4 right-4">Close</button>
   <form @submit.prevent="onSubmit">
+        <h2 class="mb-2">{{ formHeading }}</h2>
     <div class="input-wrapper">
       <label for="">Name</label>
       <input v-model="bikeName" type="text" name="" id="" />
@@ -127,6 +202,11 @@ async function onSubmit() {
       <label for="">Main image</label>
       <input @change="setBikeImage" type="file" accept="image/*" />
     </div>
-    <button>Add bike</button>
+        <div class="mt-2 grid grid-cols-2 gap-2">
+          <button type="submit">{{ submitText }}</button>
+          <button v-if="editingBike" type="button" @click="deleteBike">Delete</button>
+        </div>
   </form>
+    </div>
+  </main>
 </template>
