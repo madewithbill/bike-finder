@@ -134,32 +134,32 @@ async function onSubmit() {
 </script>
 <template>
   <main class="relative">
-  <h1>Manage bikes in the database</h1>
+    <h1>Manage bikes in the database</h1>
     <div>
       <button @click="setForm()">Add a bike</button>
-  <div
-      v-for="bike in bikes"
+      <div
+        v-for="bike in bikes"
         :key="bike.id"
-      class="flex items-center justify-between gap-6 border-b border-neutral-400 px-4 py-6"
-    >
-      <div class="flex shrink items-center gap-4 overflow-hidden">
+        class="flex items-center justify-between gap-6 border-b border-neutral-400 px-4 py-6"
+      >
+        <div class="flex shrink items-center gap-4 overflow-hidden">
           <div class="aspect-4/3 w-25 flex-none rounded-lg bg-neutral-100 p-3">
             <img v-if="bike.main_image" :src="createImgSrc(bike.main_image)" alt="" />
           </div>
-        <div class="overflow-hidden">
-          <h2 class="overflow-hidden text-base! text-nowrap text-ellipsis md:text-lg!">{{
-            bike.name
-          }}</h2>
-          <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
+          <div class="overflow-hidden">
+            <h2 class="overflow-hidden text-base! text-nowrap text-ellipsis md:text-lg!">{{
+              bike.name
+            }}</h2>
+            <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
+          </div>
         </div>
-      </div>
         <button
           @click="setForm(bike.id)"
           class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
-        >Edit</button
-      >
+          >Edit</button
+        >
+      </div>
     </div>
-  </div>
     <div
       ref="bikeFormWrapper"
       class="fixed bottom-0 z-1 w-full overflow-hidden rounded-t-2xl border border-neutral-950/20 bg-white px-4 py-8 shadow-2xl transition-transform duration-400 ease-in-out lg:bottom-[7.5dvh] lg:h-[85dvh] lg:max-w-xl lg:rounded-xl"
@@ -168,45 +168,45 @@ async function onSubmit() {
       ]"
     >
       <button @click="resetForm" class="absolute top-4 right-4">Close</button>
-  <form @submit.prevent="onSubmit">
+      <form @submit.prevent="onSubmit">
         <h2 class="mb-2">{{ formHeading }}</h2>
-    <div class="input-wrapper">
-      <label for="">Name</label>
-      <input v-model="bikeName" type="text" name="" id="" />
-    </div>
-    <div class="input-wrapper">
-      <label for="">Select type</label>
-      <select v-model="currentType" name="" id="">
-        <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
-      </select>
-    </div>
-    <div class="input-wrapper">
-      <label for="price">Price</label>
-      <input
-        @keydown.prevent="
-          (e) => {
-            if (Number(e.key)) {
-              bikePrice += e.key
-            }
-          }
-        "
-        :value="formatPrice(Number(bikePrice))"
-        type="text"
-        inputmode="numeric"
-        name=""
-        id="price"
-      />
-    </div>
+        <div class="input-wrapper">
+          <label for="">Name</label>
+          <input v-model="bikeName" type="text" name="" id="" />
+        </div>
+        <div class="input-wrapper">
+          <label for="">Select type</label>
+          <select v-model="currentType" name="" id="">
+            <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
+          </select>
+        </div>
+        <div class="input-wrapper">
+          <label for="price">Price</label>
+          <input
+            @keydown.prevent="
+              (e) => {
+                if (Number(e.key)) {
+                  bikePrice += e.key
+                }
+              }
+            "
+            :value="formatPrice(Number(bikePrice))"
+            type="text"
+            inputmode="numeric"
+            name=""
+            id="price"
+          />
+        </div>
         <img class="mb-2 w-40" :src="bikeImagePath" alt="" />
-    <div class="input-wrapper">
-      <label for="">Main image</label>
-      <input @change="setBikeImage" type="file" accept="image/*" />
-    </div>
+        <div class="input-wrapper">
+          <label for="">Main image</label>
+          <input @change="setBikeImage" type="file" accept="image/*" />
+        </div>
         <div class="mt-2 grid grid-cols-2 gap-2">
           <button type="submit">{{ submitText }}</button>
           <button v-if="editingBike" type="button" @click="deleteBike">Delete</button>
         </div>
-  </form>
+      </form>
     </div>
   </main>
 </template>
