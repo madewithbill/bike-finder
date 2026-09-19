@@ -2,14 +2,13 @@ import { createWebHistory, createRouter } from 'vue-router'
 import { supabase } from './utils/supabaseClient.ts'
 
 import HomeView from './views/HomeView.vue'
-import AdminView from './views/AdminView.vue'
 import LoginView from './views/LoginView.vue'
 import ManageBikesView from './views/ManageBikesView.vue'
 import NotFound from './views/NotFound.vue'
 
 const routes = [
   { path: '/', component: HomeView },
-  { path: '/admin/', component: AdminView },
+  { path: '/admin/', redirect: { name: 'manage' } },
   { path: '/admin/login', name: 'login', component: LoginView },
   { path: '/admin/manage', name: 'manage', component: ManageBikesView },
   { path: '/:pathMatch(.*)*', name: 'notFound', component: NotFound },
