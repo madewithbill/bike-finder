@@ -37,6 +37,9 @@ onMounted(() => {
 function setBikeImage(e: Event) {
   const imageInput = e.target as HTMLInputElement
   bikeImageFile.value = imageInput.files?.[0]
+  if (bikeImageFile.value) {
+    bikeImagePath.value = URL.createObjectURL(bikeImageFile.value)
+  }
 }
 
 // Upload file to Supabase Storage using standard upload
