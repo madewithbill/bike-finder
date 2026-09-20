@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
-import { ref, onMounted, useTemplateRef } from 'vue'
+import { ref, onMounted } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 
@@ -19,7 +19,6 @@ const bikeImageFile = ref<File>()
 const bikeImagePath = ref('')
 
 // Add form refs
-const bikeFormWrapper = useTemplateRef('bikeFormWrapper')
 const formVisible = ref(false)
 const formHeading = ref('Add bike')
 const submitText = ref('Add bike')
@@ -113,13 +112,12 @@ async function setForm(id?: number) {
 }
 
 function resetForm() {
-  formVisible.value = false
-  bikeFormWrapper.value?.addEventListener('transitionend', () => {
+  if (!formVisible.value) {
     bikeName.value = ''
     currentType.value = ''
     bikePrice.value = ''
     bikeImagePath.value = ''
-  })
+  }
 }
 
 // Form sumbit action to upload image and add row to table
@@ -161,13 +159,13 @@ async function onSubmit() {
       </div>
     </div>
     <div
-      ref="bikeFormWrapper"
+        @transitionend="resetForm"
       class="fixed bottom-0 z-1 w-full overflow-hidden rounded-t-2xl border border-neutral-950/20 bg-white px-4 py-8 shadow-2xl transition-transform duration-400 ease-in-out lg:bottom-[7.5dvh] lg:h-[85dvh] lg:max-w-xl lg:rounded-xl"
       :class="[
         formVisible ? 'lg:right-4' : 'max-lg:translate-y-full lg:right-0 lg:translate-x-full',
       ]"
     >
-      <button @click="resetForm" class="absolute top-4 right-4">Close</button>
+      <button @click="formVisible = false" class="absolute top-4 right-4">Close</button>
       <form @submit.prevent="onSubmit">
         <h2 class="mb-2">{{ formHeading }}</h2>
         <div class="input-wrapper">
