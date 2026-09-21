@@ -140,7 +140,10 @@ function revealImg(key: number) {
 }
 </script>
 <template>
-  <main class="relative px-4">
+  <main
+    class="relative px-4"
+    :class="[formVisible ? 'h-[calc(100dvh-3rem)] overflow-hidden' : null]"
+  >
     <div class="mx-auto max-w-5xl py-12">
       <div class="mb-4 flex items-center justify-between">
         <h1 class="mb-0! text-2xl!">Manage bikes</h1>
@@ -183,72 +186,76 @@ function revealImg(key: number) {
         </div>
       </div>
       <div
-        @transitionend="resetForm"
-        class="fixed bottom-0 z-1 w-full overflow-hidden rounded-t-2xl border border-neutral-950/20 bg-white px-4 py-8 shadow-2xl transition-transform duration-400 ease-in-out lg:bottom-[7.5dvh] lg:h-[85dvh] lg:max-w-xl lg:rounded-xl"
-        :class="[
-          formVisible
-            ? 'max-lg:left-0 lg:right-4'
-            : 'max-lg:translate-y-full lg:right-0 lg:translate-x-full',
-        ]"
+        @click.self="formVisible = false"
+        class="transform-opacity absolute inset-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
+        :class="[formVisible ? 'opacity-100' : 'pointer-events-none opacity-0']"
       >
-        <div class="mb-4 flex items-center justify-between">
-          <h2 class="">{{ formHeading }}</h2>
-          <button @click="formVisible = false" class="">Close</button>
-        </div>
-        <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-4">
-          <div class="input-wrapper">
-            <label for="">Name</label>
-            <input v-model="bikeName" type="text" name="" id="" />
+        <div
+          @transitionend="resetForm"
+          class="z-1 w-full overflow-auto rounded-t-2xl border border-neutral-950/20 bg-white px-6 py-8 shadow-2xl duration-400 ease-in-out lg:max-h-[85dvh] lg:max-w-xl lg:rounded-xl"
+          :class="[formVisible ? 'opacity-100' : 'translate-y-5 opacity-0']"
+        >
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="">{{ formHeading }}</h2>
+            <button @click="formVisible = false" class="">Close</button>
           </div>
-          <div class="input-wrapper">
-            <label for="">Select type</label>
-            <select v-model="currentType" name="" id="">
-              <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
-            </select>
-          </div>
-          <div class="input-wrapper">
-            <label for="price">Price</label>
-            <input
-              @keydown.prevent="
-                (e) => {
-                  if (Number(e.key)) {
-                    bikePrice += e.key
+          <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-4">
+            <div class="input-wrapper">
+              <label for="">Name</label>
+              <input v-model="bikeName" type="text" name="" id="" />
+            </div>
+            <div class="input-wrapper">
+              <label for="">Select type</label>
+              <select v-model="currentType" name="" id="">
+                <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
+              </select>
+            </div>
+            <div class="input-wrapper">
+              <label for="price">Price</label>
+              <input
+                @keydown.prevent="
+                  (e) => {
+                    if (Number(e.key)) {
+                      bikePrice += e.key
+                    }
                   }
-                }
-              "
-              :value="formatPrice(Number(bikePrice))"
-              type="text"
-              inputmode="numeric"
-              name=""
-              id="price"
-            />
-          </div>
-          <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
-            <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
-            <span v-else class="w-full self-center text-center text-sm">No image found.</span>
-          </div>
-          <div class="input-wrapper upload">
-            <label for="">Main image</label>
-            <input
-              @change="setBikeImage"
-              type="file"
-              accept="image/*"
-              class="file:hidden hover:cursor-pointer"
-            />
-          </div>
-          <div class="mt-2 grid grid-cols-2 gap-2">
-            <button type="submit" class="h-8 rounded-full bg-neutral-950 text-sm text-white">{{
-              submitText
-            }}</button>
-            <button
-              v-if="editingBike"
-              type="button"
-              @click="deleteBike"
-              class="h-8 rounded-full bg-red-700 text-sm text-white"
-              >Delete</button
-            >
-          </div>
-        </form>
+                "
+                :value="formatPrice(Number(bikePrice))"
+                type="text"
+                inputmode="numeric"
+                name=""
+                id="price"
+              />
+            </div>
+            <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
+              <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
+              <span v-else class="w-full self-center text-center text-sm">No image found.</span>
+            </div>
+            <div class="input-wrapper upload">
+              <label for="">Main image</label>
+              <input
+                @change="setBikeImage"
+                type="file"
+                accept="image/*"
+                class="file:hidden hover:cursor-pointer"
+              />
+            </div>
+            <div class="mt-2 grid grid-cols-2 gap-2 justify-self-start">
+              <button
+                type="submit"
+                class="h-8 rounded-full bg-neutral-950 px-4 text-sm text-white"
+                >{{ submitText }}</button
+              >
+              <button
+                v-if="editingBike"
+                type="button"
+                @click="deleteBike"
+                class="h-8 rounded-full bg-red-700 px-4 text-sm text-white"
+                >Delete</button
+              >
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </main>
