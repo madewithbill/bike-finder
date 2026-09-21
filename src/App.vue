@@ -36,7 +36,7 @@ async function signOut() {
     </li>
   </ul>
   <header
-    class="fixed z-100 flex h-12 w-full items-center justify-between border-b border-b-neutral-200 bg-white px-4"
+    class="sticky top-0 z-100 flex h-12 w-full items-center justify-between border-b border-b-neutral-200 bg-white px-4"
   >
     <div class="flex h-full items-center gap-3">
       <NavLogo class="w-30" />
@@ -52,5 +52,5 @@ async function signOut() {
       >Sign Out</button
     >
   </header>
-  <RouterView class="pt-12" />
+  <RouterView />
 </template>
