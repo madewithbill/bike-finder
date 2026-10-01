@@ -140,10 +140,7 @@ function revealImg(key: number) {
 }
 </script>
 <template>
-  <main
-    class="relative px-4"
-    :class="[formVisible ? 'h-[calc(100dvh-3rem)] overflow-hidden' : null]"
-  >
+  <main class="relative px-4" :class="[formVisible ? 'no-scroll' : null]">
     <div class="mx-auto max-w-5xl py-12">
       <div class="mb-4 flex items-center justify-between">
         <h1 class="mb-0! text-2xl!">Manage bikes</h1>
@@ -187,7 +184,7 @@ function revealImg(key: number) {
       </div>
       <div
         @click.self="formVisible = false"
-        class="transform-opacity absolute inset-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
+        class="transform-opacity fixed right-0 bottom-0 left-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
         :class="[formVisible ? 'opacity-100' : 'pointer-events-none opacity-0']"
       >
         <div
