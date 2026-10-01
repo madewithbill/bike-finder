@@ -4,6 +4,8 @@ import { ref, onMounted } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 
+import Button from '@/components/ui/Button.vue'
+
 import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
 
@@ -144,11 +146,7 @@ function revealImg(key: number) {
     <div class="mx-auto max-w-5xl py-12">
       <div class="mb-4 flex items-center justify-between">
         <h1 class="mb-0! text-2xl!">Manage bikes</h1>
-        <button
-          class="h-8 rounded-full bg-neutral-950 px-4 text-sm leading-0 text-white"
-          @click="setForm()"
-          >New bike</button
-        >
+        <Button @click="setForm()">New bike</Button>
       </div>
       <div class="rounded-md border border-neutral-950/50 px-8 py-4">
         <div
@@ -175,11 +173,7 @@ function revealImg(key: number) {
               <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
             </div>
           </div>
-          <button
-            @click="setForm(bike.id)"
-            class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
-            >Edit</button
-          >
+          <Button size="sm" @click="setForm(bike.id)">Edit</Button>
         </div>
       </div>
       <div
@@ -238,17 +232,9 @@ function revealImg(key: number) {
               />
             </div>
             <div class="mt-2 grid grid-cols-2 gap-2 justify-self-start">
-              <button
-                type="submit"
-                class="h-8 rounded-full bg-neutral-950 px-4 text-sm text-white"
-                >{{ submitText }}</button
-              >
-              <button
-                v-if="editingBike"
-                type="button"
-                @click="deleteBike"
-                class="h-8 rounded-full bg-red-700 px-4 text-sm text-white"
-                >Delete</button
+              <Button type="submit">{{ submitText }}</Button>
+              <Button variant="danger" v-if="editingBike" @click="deleteBike" type="button"
+                >Delete</Button
               >
             </div>
           </form>
