@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 
@@ -18,6 +18,7 @@ const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
 const bikeId = ref<number>()
 const bikeName = ref('')
 const bikePrice = ref('')
+const formattedPrice = computed(() => formatPrice(Number(bikePrice.value))) // For price input styling
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('')
 const bikeImageFile = ref<File>()
@@ -207,18 +208,27 @@ function revealImg(key: number) {
             <InputWrapper>
               <InputLabel label-for="price">Price</InputLabel>
               <Input
-                @keydown.prevent="
-                  (e) => {
-                    if (Number(e.key)) {
-                      bikePrice += e.key
+                v-model="formattedPrice"
+                @keydown="
+                  (e: KeyboardEvent) => {
+                    const validKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
+                    if (!Number(e.key) && !validKeys.includes(e.key)) {
+                      e.preventDefault()
                     }
                   }
                 "
-                :value="formatPrice(Number(bikePrice))"
-                type="text"
-                inputmode="numeric"
-                name=""
+                @input="
+                  (e: InputEvent) => {
+                    const value: string = (e.target as HTMLInputElement).value
+                    const rawPrice = value
+                      .split('')
+                      .filter((l) => Number(l))
+                      .join('')
+                    bikePrice = rawPrice
+                  }
+                "
                 id="price"
+                inputmode="numeric"
               />
             </InputWrapper>
             <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
