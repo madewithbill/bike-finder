@@ -6,6 +6,7 @@ import { ref } from 'vue'
 import InputWrapper from '@/components/ui/InputWrapper.vue'
 import InputLabel from '@/components/ui/InputLabel.vue'
 import Input from '@/components/ui/Input.vue'
+import Button from '@/components/ui/Button.vue'
 
 const email = ref('')
 const password = ref('')
@@ -54,10 +55,7 @@ async function signInWithEmail() {
                 ><span v-if="!passwordVisible">Show</span><span v-else>Hide</span></button
               >
             </InputWrapper>
-            <button
-              class="h-8 justify-self-start rounded-full bg-neutral-950 px-4 leading-0 text-white"
-              >Log In</button
-            >
+            <Button class="justify-self-start">Log in</Button>
           </form>
         </div>
       </div>
