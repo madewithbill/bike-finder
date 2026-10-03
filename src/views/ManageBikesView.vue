@@ -3,11 +3,13 @@ import { supabase } from '../utils/supabaseClient.ts'
 import { ref, onMounted, computed } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
+import { hideSkeleton } from '@/utils/hideSkeleton.ts'
 
 import Button from '@/components/ui/Button.vue'
 import InputWrapper from '@/components/ui/InputWrapper.vue'
 import InputLabel from '@/components/ui/InputLabel.vue'
 import Input from '@/components/ui/Input.vue'
+import Skeleton from '@/components/ui/Skeleton.vue'
 
 import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
@@ -138,13 +140,8 @@ async function onSubmit() {
   }
   formVisible.value = false
 }
-
-// Image skeloton replace
-function revealImg(key: number) {
-  const skeleton = document.getElementById(`${key}`)
-  skeleton?.classList.add('hidden')
-}
 </script>
+
 <template>
   <main class="relative px-4" :class="[formVisible ? 'no-scroll' : null]">
     <div class="mx-auto max-w-5xl py-12">
@@ -162,9 +159,9 @@ function revealImg(key: number) {
             <div
               class="relative aspect-4/3 w-25 flex-none overflow-hidden rounded-lg bg-neutral-100 p-3"
             >
-              <div :id="bike.id.toString()" class="skeleton absolute inset-0 z-1"></div>
+              <Skeleton :id="bike.id.toString()" />
               <img
-                @load="revealImg(bike.id)"
+                @load="hideSkeleton(bike.id)"
                 v-if="bike.main_image"
                 :src="createImgSrc(bike.main_image)"
                 alt=""
