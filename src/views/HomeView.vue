@@ -5,7 +5,7 @@ import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
 import { supabase } from '../utils/supabaseClient.ts'
 
-import Divider from '../components/Divider.vue'
+import Divider from '../components/ui/Divider.vue'
 import NavLogo from '../components/NavLogo.vue'
 import HeroImage from '../components/HeroImage.vue'
 import type { Tables } from '../utils/supabase.ts'
