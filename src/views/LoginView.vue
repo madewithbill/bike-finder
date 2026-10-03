@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import { supabase } from '@/utils/supabaseClient'
-import { ref, useTemplateRef } from 'vue'
+import { ref } from 'vue'
 
 import InputWrapper from '@/components/ui/InputWrapper.vue'
 import InputLabel from '@/components/ui/InputLabel.vue'
@@ -9,7 +9,6 @@ import Input from '@/components/ui/Input.vue'
 
 const email = ref('')
 const password = ref('')
-const passwordEl = useTemplateRef('pwEl')
 const passwordVisible = ref(false)
 
 async function signInWithEmail() {
@@ -21,13 +20,6 @@ async function signInWithEmail() {
     email.value = ''
     password.value = ''
     router.push({ name: 'manage' })
-  }
-}
-
-function togglePasswordVisible() {
-  passwordVisible.value = !passwordVisible.value
-  if (passwordEl.value) {
-    passwordEl.value.type = passwordVisible.value ? 'text' : 'password'
   }
 }
 </script>
@@ -50,9 +42,14 @@ function togglePasswordVisible() {
             </InputWrapper>
             <InputWrapper>
               <InputLabel label-for="password">Password</InputLabel>
-              <Input ref="pwEl" v-model="password" id="password" name="password" type="password" />
+              <Input
+                v-model="password"
+                id="password"
+                name="password"
+                :type="passwordVisible ? 'text' : 'password'"
+              />
               <button
-                @click="togglePasswordVisible"
+                @click="passwordVisible = !passwordVisible"
                 class="absolute top-[50%] right-2 translate-y-[-50%] rounded-md border border-neutral-950/20 bg-neutral-100 px-2 py-1 text-xs"
                 ><span v-if="!passwordVisible">Show</span><span v-else>Hide</span></button
               >
