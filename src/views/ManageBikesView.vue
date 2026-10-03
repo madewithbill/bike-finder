@@ -5,6 +5,9 @@ import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 
 import Button from '@/components/ui/Button.vue'
+import InputWrapper from '@/components/ui/InputWrapper.vue'
+import InputLabel from '@/components/ui/InputLabel.vue'
+import Input from '@/components/ui/Input.vue'
 
 import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
@@ -191,19 +194,19 @@ function revealImg(key: number) {
             <button @click="formVisible = false" class="">Close</button>
           </div>
           <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-4">
-            <div class="input-wrapper">
-              <label for="">Name</label>
-              <input v-model="bikeName" type="text" name="" id="" />
-            </div>
+            <InputWrapper>
+              <InputLabel label-for="name">Name</InputLabel>
+              <Input v-model="bikeName" id="name" />
+            </InputWrapper>
             <div class="input-wrapper">
               <label for="">Select type</label>
               <select v-model="currentType" name="" id="">
                 <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
               </select>
             </div>
-            <div class="input-wrapper">
-              <label for="price">Price</label>
-              <input
+            <InputWrapper>
+              <InputLabel label-for="price">Price</InputLabel>
+              <Input
                 @keydown.prevent="
                   (e) => {
                     if (Number(e.key)) {
@@ -217,7 +220,7 @@ function revealImg(key: number) {
                 name=""
                 id="price"
               />
-            </div>
+            </InputWrapper>
             <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
               <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
               <span v-else class="w-full self-center text-center text-sm">No image found.</span>
