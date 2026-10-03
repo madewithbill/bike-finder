@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { formatPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
+
+import Button from '@/components/ui/Button.vue'
+import InputWrapper from '@/components/ui/InputWrapper.vue'
+import InputLabel from '@/components/ui/InputLabel.vue'
+import Input from '@/components/ui/Input.vue'
 
 import type { Ref } from 'vue'
 import type { Tables } from '../utils/supabase.ts'
@@ -13,6 +18,7 @@ const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
 const bikeId = ref<number>()
 const bikeName = ref('')
 const bikePrice = ref('')
+const formattedPrice = computed(() => formatPrice(Number(bikePrice.value))) // For price input styling
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('')
 const bikeImageFile = ref<File>()
@@ -140,18 +146,11 @@ function revealImg(key: number) {
 }
 </script>
 <template>
-  <main
-    class="relative px-4"
-    :class="[formVisible ? 'h-[calc(100dvh-3rem)] overflow-hidden' : null]"
-  >
+  <main class="relative px-4" :class="[formVisible ? 'no-scroll' : null]">
     <div class="mx-auto max-w-5xl py-12">
       <div class="mb-4 flex items-center justify-between">
         <h1 class="mb-0! text-2xl!">Manage bikes</h1>
-        <button
-          class="h-8 rounded-full bg-neutral-950 px-4 text-sm leading-0 text-white"
-          @click="setForm()"
-          >New bike</button
-        >
+        <Button @click="setForm()">New bike</Button>
       </div>
       <div class="rounded-md border border-neutral-950/50 px-8 py-4">
         <div
@@ -178,16 +177,12 @@ function revealImg(key: number) {
               <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
             </div>
           </div>
-          <button
-            @click="setForm(bike.id)"
-            class="flex-none rounded-full bg-neutral-950 px-3 py-1 text-sm text-white"
-            >Edit</button
-          >
+          <Button size="sm" @click="setForm(bike.id)">Edit</Button>
         </div>
       </div>
       <div
         @click.self="formVisible = false"
-        class="transform-opacity absolute inset-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
+        class="transform-opacity fixed right-0 bottom-0 left-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
         :class="[formVisible ? 'opacity-100' : 'pointer-events-none opacity-0']"
       >
         <div
@@ -200,33 +195,42 @@ function revealImg(key: number) {
             <button @click="formVisible = false" class="">Close</button>
           </div>
           <form @submit.prevent="onSubmit" class="grid grid-cols-1 gap-4">
-            <div class="input-wrapper">
-              <label for="">Name</label>
-              <input v-model="bikeName" type="text" name="" id="" />
-            </div>
+            <InputWrapper>
+              <InputLabel label-for="name">Name</InputLabel>
+              <Input v-model="bikeName" id="name" />
+            </InputWrapper>
             <div class="input-wrapper">
               <label for="">Select type</label>
               <select v-model="currentType" name="" id="">
                 <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
               </select>
             </div>
-            <div class="input-wrapper">
-              <label for="price">Price</label>
-              <input
-                @keydown.prevent="
-                  (e) => {
-                    if (Number(e.key)) {
-                      bikePrice += e.key
+            <InputWrapper>
+              <InputLabel label-for="price">Price</InputLabel>
+              <Input
+                v-model="formattedPrice"
+                @keydown="
+                  (e: KeyboardEvent) => {
+                    const validKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
+                    if (!Number(e.key) && !validKeys.includes(e.key)) {
+                      e.preventDefault()
                     }
                   }
                 "
-                :value="formatPrice(Number(bikePrice))"
-                type="text"
-                inputmode="numeric"
-                name=""
+                @input="
+                  (e: InputEvent) => {
+                    const value: string = (e.target as HTMLInputElement).value
+                    const rawPrice = value
+                      .split('')
+                      .filter((l) => Number(l))
+                      .join('')
+                    bikePrice = rawPrice
+                  }
+                "
                 id="price"
+                inputmode="numeric"
               />
-            </div>
+            </InputWrapper>
             <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
               <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
               <span v-else class="w-full self-center text-center text-sm">No image found.</span>
@@ -241,17 +245,9 @@ function revealImg(key: number) {
               />
             </div>
             <div class="mt-2 grid grid-cols-2 gap-2 justify-self-start">
-              <button
-                type="submit"
-                class="h-8 rounded-full bg-neutral-950 px-4 text-sm text-white"
-                >{{ submitText }}</button
-              >
-              <button
-                v-if="editingBike"
-                type="button"
-                @click="deleteBike"
-                class="h-8 rounded-full bg-red-700 px-4 text-sm text-white"
-                >Delete</button
+              <Button type="submit">{{ submitText }}</Button>
+              <Button variant="danger" v-if="editingBike" @click="deleteBike" type="button"
+                >Delete</Button
               >
             </div>
           </form>

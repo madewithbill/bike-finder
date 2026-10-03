@@ -5,11 +5,14 @@ import type { Ref } from 'vue'
 import useEmblaCarousel from 'embla-carousel-vue'
 import { supabase } from '../utils/supabaseClient.ts'
 
-import Divider from '../components/Divider.vue'
+import Divider from '../components/ui/Divider.vue'
 import NavLogo from '../components/NavLogo.vue'
 import HeroImage from '../components/HeroImage.vue'
 import type { Tables } from '../utils/supabase.ts'
 import BikeCard from '../components/BikeCard.vue'
+import InputWrapper from '@/components/ui/InputWrapper.vue'
+import InputLabel from '@/components/ui/InputLabel.vue'
+import Input from '@/components/ui/Input.vue'
 
 const bikeTypes = ['Road', 'MTB', 'City']
 const currentType = ref('Road')
@@ -125,34 +128,34 @@ onMounted(() => {
               </div>
               <fieldset class="mb-2 grid grid-cols-2 gap-1">
                 <legend class="mb-1 text-sm font-medium text-neutral-700">Height</legend>
-                <div class="input-wrapper">
-                  <label for="height-ft" class="base-label">Feet </label>
-                  <input
+                <InputWrapper>
+                  <InputLabel label-for="height-ft">Feet</InputLabel>
+                  <Input
                     v-model.number="currentFeet"
                     id="height-ft"
                     name="feet"
                     type="number"
+                    step="0.1"
                     :disabled="currentType === 'Road'"
                   />
-                </div>
-                <div class="input-wrapper">
-                  <label for="height-in" class="base-label">Inches </label>
-                  <input
+                </InputWrapper>
+                <InputWrapper>
+                  <InputLabel label-for="height-in">Inches</InputLabel>
+                  <Input
                     v-model.number="currentInches"
                     id="height-in"
                     name="inches"
                     type="number"
-                    min="0"
-                    max="11"
+                    step="0.1"
                     :disabled="currentType === 'Road'"
                   />
-                </div>
+                </InputWrapper>
               </fieldset>
               <fieldset>
                 <legend class="mb-1 text-sm font-medium text-neutral-700">Inseam</legend>
-                <div class="input-wrapper">
-                  <label for="inseam" class="base-label">Inches </label>
-                  <input
+                <InputWrapper>
+                  <InputLabel label-for="inseam">Inches</InputLabel>
+                  <Input
                     id="inseam"
                     v-model.number="currentInseam"
                     name="inseam"
@@ -160,7 +163,7 @@ onMounted(() => {
                     step="0.1"
                     :disabled="currentType !== 'Road'"
                   />
-                </div>
+                </InputWrapper>
               </fieldset>
             </div>
           </div>
