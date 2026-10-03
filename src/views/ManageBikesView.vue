@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button.vue'
 import InputWrapper from '@/components/ui/InputWrapper.vue'
 import InputLabel from '@/components/ui/InputLabel.vue'
 import Input from '@/components/ui/Input.vue'
+import Select from '@/components/ui/Select.vue'
 import Skeleton from '@/components/ui/Skeleton.vue'
 
 import type { Ref } from 'vue'
@@ -196,12 +197,12 @@ async function onSubmit() {
               <InputLabel label-for="name">Name</InputLabel>
               <Input v-model="bikeName" id="name" />
             </InputWrapper>
-            <div class="input-wrapper">
-              <label for="">Select type</label>
-              <select v-model="currentType" name="" id="">
+            <InputWrapper>
+              <InputLabel label-for="type">Bike type</InputLabel>
+              <Select v-model="currentType" name="type" id="type">
                 <option v-for="bike in bikeTypes" :value="bike">{{ bike }}</option>
-              </select>
-            </div>
+              </Select>
+            </InputWrapper>
             <InputWrapper>
               <InputLabel label-for="price">Price</InputLabel>
               <Input
