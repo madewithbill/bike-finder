@@ -141,6 +141,23 @@ async function onSubmit() {
   }
   formVisible.value = false
 }
+
+// Price input validation and conversion
+function validateKey(e: KeyboardEvent) {
+  const validKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
+  if (!Number(e.key) && !validKeys.includes(e.key)) {
+    e.preventDefault()
+  }
+}
+
+function getRawPrice(e: InputEvent) {
+  const value: string = (e.target as HTMLInputElement).value
+  const rawPrice = value
+    .split('')
+    .filter((l) => Number(l))
+    .join('')
+  bikePrice.value = rawPrice
+}
 </script>
 
 <template>
@@ -207,24 +224,8 @@ async function onSubmit() {
               <InputLabel label-for="price">Price</InputLabel>
               <Input
                 v-model="formattedPrice"
-                @keydown="
-                  (e: KeyboardEvent) => {
-                    const validKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
-                    if (!Number(e.key) && !validKeys.includes(e.key)) {
-                      e.preventDefault()
-                    }
-                  }
-                "
-                @input="
-                  (e: InputEvent) => {
-                    const value: string = (e.target as HTMLInputElement).value
-                    const rawPrice = value
-                      .split('')
-                      .filter((l) => Number(l))
-                      .join('')
-                    bikePrice = rawPrice
-                  }
-                "
+                @keydown="validateKey"
+                @input="getRawPrice"
                 id="price"
                 inputmode="numeric"
               />
