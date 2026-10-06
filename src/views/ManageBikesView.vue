@@ -108,19 +108,10 @@ async function deleteBike() {
 
 //Form fill
 async function setForm(id?: number) {
+  let currentBike
   if (id) {
     const { data } = await supabase.from('bikes').select().eq('id', id)
-    if (data) {
-      const currentBike = data[0]
-      bikeId.value = currentBike?.id
-      bikeName.value = currentBike?.name ?? ''
-      currentType.value = currentBike?.bike_type ?? ''
-      bikePrice.value = currentBike?.price.toString() ?? ''
-      bikeImagePath.value = currentBike?.main_image ?? ''
-      bikeInStock.value = currentBike?.in_stock ?? false
-      bikeOnSale.value = currentBike?.on_sale ?? false
-      bikeSalePrice.value = currentBike?.sale_price?.toString() ?? ''
-    }
+    currentBike = data ? data[0] : null
     formHeading.value = 'Manage bike'
     submitText.value = 'Update'
     editingBike.value = true
@@ -129,16 +120,17 @@ async function setForm(id?: number) {
     submitText.value = 'Add'
     editingBike.value = false
   }
-  formVisible.value = true
-}
 
-function resetForm() {
-  if (!formVisible.value) {
-    bikeName.value = ''
-    currentType.value = ''
-    bikePrice.value = ''
-    bikeImagePath.value = ''
-  }
+  bikeId.value = currentBike?.id ?? undefined
+  bikeName.value = currentBike?.name ?? ''
+  currentType.value = currentBike?.bike_type ?? ''
+  bikePrice.value = currentBike?.price.toString() ?? ''
+  bikeImagePath.value = currentBike?.main_image ?? ''
+  bikeInStock.value = currentBike?.in_stock ?? false
+  bikeOnSale.value = currentBike?.on_sale ?? false
+  bikeSalePrice.value = currentBike?.sale_price?.toString() ?? ''
+
+  formVisible.value = true
 }
 
 // Form sumbit action to upload image and add row to table
@@ -210,7 +202,6 @@ function getRawPrice(e: InputEvent) {
         :class="[formVisible ? 'opacity-100' : 'pointer-events-none opacity-0']"
       >
         <div
-          @transitionend="resetForm"
           class="z-1 max-h-[70dvh] w-full overflow-auto rounded-t-2xl border border-neutral-950/20 bg-white p-4 shadow-2xl duration-400 ease-in-out max-lg:inset-shadow-sm lg:max-h-[85dvh] lg:max-w-135 lg:rounded-xl lg:p-8"
           :class="[formVisible ? 'opacity-100' : 'translate-y-5 opacity-0']"
         >
