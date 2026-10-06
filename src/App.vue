@@ -30,7 +30,7 @@ async function signOut() {
     <li class="before:content-none!">
       <a
         href="#main"
-        class="fixed top-0 left-[50%] mx-auto my-[1em] -ml-18 whitespace-nowrap opacity-0 focus:bg-neutral-950 focus:p-2 focus:text-white focus:opacity-100"
+        class="fixed top-0 left-[50%] mx-auto my-12 -ml-18 whitespace-nowrap opacity-0 focus:bg-neutral-950 focus:p-2 focus:text-white focus:opacity-100 lg:my-[1em]"
         >Skip to main content</a
       >
     </li>
