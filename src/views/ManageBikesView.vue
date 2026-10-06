@@ -270,11 +270,19 @@ function getRawPrice(e: InputEvent) {
                 <h3 class="heading-group">Inventory Settings</h3>
               </legend>
               <div class="flex items-center gap-2">
-                <Checkbox id="stock" :checked="bikeInStock" />
+                <Checkbox
+                  id="stock"
+                  :checked="bikeInStock"
+                  @change="() => (bikeInStock = !bikeInStock)"
+                />
                 <InputLabel label-for="stock">In-stock</InputLabel>
               </div>
               <div class="flex items-center gap-2">
-                <Checkbox id="sale" :checked="bikeOnSale" />
+                <Checkbox
+                  id="sale"
+                  :checked="bikeOnSale"
+                  @change="() => (bikeOnSale = !bikeOnSale)"
+                />
                 <InputLabel label-for="sale">On sale</InputLabel>
               </div>
               <InputWrapper>
