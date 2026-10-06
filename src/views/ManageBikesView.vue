@@ -176,11 +176,11 @@ function getRawPrice(e: InputEvent) {
         <h1 class="mb-0! text-2xl!">Manage bikes</h1>
         <Button @click="setForm()">New bike</Button>
       </div>
-      <div class="rounded-md border border-neutral-950/50 px-8 py-4">
+      <div class="rounded-md border border-neutral-950/50 px-4 lg:px-8 lg:py-4">
         <div
           v-for="bike in bikes"
           :key="bike.id"
-          class="flex items-center justify-between gap-6 border-b border-neutral-950/20 px-4 py-6 last:border-0"
+          class="flex items-center justify-between gap-6 border-b border-neutral-950/20 py-3 last:border-0 lg:py-6"
         >
           <div class="flex shrink items-center gap-4 overflow-hidden">
             <div
@@ -206,12 +206,12 @@ function getRawPrice(e: InputEvent) {
       </div>
       <div
         @click.self="formVisible = false"
-        class="transform-opacity fixed right-0 bottom-0 left-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-neutral-950/20 duration-200 lg:items-center"
+        class="transform-opacity fixed right-0 bottom-0 left-0 flex h-[calc(100dvh-3rem)] items-end justify-center bg-white/90 duration-200 lg:items-center"
         :class="[formVisible ? 'opacity-100' : 'pointer-events-none opacity-0']"
       >
         <div
           @transitionend="resetForm"
-          class="z-1 w-full overflow-auto rounded-t-2xl border border-neutral-950/20 bg-white px-6 py-8 shadow-2xl duration-400 ease-in-out lg:max-h-[85dvh] lg:max-w-xl lg:rounded-xl"
+          class="z-1 max-h-[70dvh] w-full overflow-auto rounded-t-2xl border border-neutral-950/20 bg-white p-4 shadow-2xl duration-400 ease-in-out max-lg:inset-shadow-sm lg:max-h-[85dvh] lg:max-w-135 lg:rounded-xl lg:p-8"
           :class="[formVisible ? 'opacity-100' : 'translate-y-5 opacity-0']"
         >
           <div class="mb-4 flex items-center justify-between">
@@ -248,7 +248,7 @@ function getRawPrice(e: InputEvent) {
               <div>
                 <InputLabel label-for="image">Main Image</InputLabel>
                 <p class="mb-4 text-sm text-neutral-950/80 italic"
-                  >Max recommended file size: 100 kB</p
+                  >Max recommended file size: <span class="whitespace-nowrap">100 kB</span></p
                 >
                 <div class="relative">
                   <input
@@ -298,7 +298,7 @@ function getRawPrice(e: InputEvent) {
               </InputWrapper>
             </fieldset>
 
-            <div class="mt-2 grid grid-cols-2 gap-2 justify-self-start">
+            <div class="mt-2 grid grid-cols-1 gap-2 lg:grid-cols-2 lg:justify-self-start">
               <Button type="submit">{{ submitText }}</Button>
               <Button variant="danger" v-if="editingBike" @click="deleteBike" type="button"
                 >Delete</Button
