@@ -230,19 +230,30 @@ function getRawPrice(e: InputEvent) {
                 inputmode="numeric"
               />
             </InputWrapper>
-            <div class="mb-2 flex aspect-4/3 w-40 overflow-hidden rounded-lg bg-neutral-100 p-3">
-              <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
-              <span v-else class="w-full self-center text-center text-sm">No image found.</span>
+
+            <div class="relative flex w-full items-end gap-4">
+              <div class="flex aspect-4/3 w-50 overflow-hidden rounded-lg bg-neutral-100 p-3">
+                <img v-if="bikeImagePath" :src="createImgSrc(bikeImagePath)" alt="" />
+                <span v-else class="w-full self-center text-center text-sm">No image found.</span>
+              </div>
+              <div>
+                <InputLabel label-for="image">Main Image</InputLabel>
+                <p class="mb-4 text-sm text-neutral-950/80 italic"
+                  >Max recommended file size: 100 kB</p
+                >
+                <div class="relative">
+                  <input
+                    @change="setBikeImage"
+                    type="file"
+                    id="image"
+                    accept="image/*"
+                    class="absolute inset-0 z-1 opacity-0 file:hidden hover:cursor-pointer"
+                  />
+                  <Button variant="secondary" type="button">Choose file</Button>
+                </div>
+              </div>
             </div>
-            <div class="input-wrapper upload">
-              <label for="">Main image</label>
-              <input
-                @change="setBikeImage"
-                type="file"
-                accept="image/*"
-                class="file:hidden hover:cursor-pointer"
-              />
-            </div>
+
             <div class="mt-2 grid grid-cols-2 gap-2 justify-self-start">
               <Button type="submit">{{ submitText }}</Button>
               <Button variant="danger" v-if="editingBike" @click="deleteBike" type="button"
