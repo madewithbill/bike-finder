@@ -187,10 +187,20 @@ function getRawPrice(e: InputEvent) {
               />
             </div>
             <div class="overflow-hidden">
+              <span v-if="!bike.in_stock" class="block text-xs font-semibold text-red-700 uppercase"
+                >Out of stock</span
+              >
               <h2 class="overflow-hidden text-base! text-nowrap text-ellipsis md:text-lg!">{{
                 bike.name
               }}</h2>
-              <p class="text-sm md:text-base">{{ formatPrice(bike.price) }}</p>
+              <span v-if="bike.on_sale && bike.sale_price" class="mr-2 text-neutral-950">{{
+                formatPrice(bike.sale_price)
+              }}</span>
+              <span
+                class="text-sm md:text-base"
+                :class="bike.on_sale && 'text-neutral-950/45 line-through'"
+                >{{ formatPrice(bike.price) }}</span
+              >
             </div>
           </div>
           <Button size="sm" @click="setForm(bike.id)">Edit</Button>
