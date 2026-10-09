@@ -35,6 +35,9 @@ coverage
 # Vitest
 __screenshots__/
 
+# Vitest reports and artifacts
+.vitest/
+
 # Vite
 *.timestamp-*-*.mjs
 .vercel
