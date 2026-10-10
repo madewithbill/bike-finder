@@ -21,7 +21,18 @@ describe('allowKey', () => {
     { key: 'b', price: '100', expected: false },
     { key: 'Backspace', price: '0', expected: false },
     { key: 'Backspace', price: '100', expected: true },
+    { key: 'Tab', price: '0', expected: true },
+    { key: 'Tab', price: '100', expected: true },
+    { key: 'Enter', price: '0', expected: true },
+    { key: 'Enter', price: '100', expected: true },
   ])('allowKey for $key is $expected when price is $price', ({ key, price, expected }) => {
+    expect(allowKey(key, price)).toBe(expected)
+  })
+
+  test.each([
+    { key: ' ', price: '0', expected: false },
+    { key: ' ', price: '100', expected: false },
+  ])('always blocks space key, testing a price of $price', ({ key, price, expected }) => {
     expect(allowKey(key, price)).toBe(expected)
   })
 })
