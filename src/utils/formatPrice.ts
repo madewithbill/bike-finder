@@ -9,9 +9,12 @@ export function formatPrice(price: number) {
 
 // Price input validation and conversion
 export function allowKey(key: string, bikePrice: string) {
+  //allowable editing keys
+  const editKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
   if (
     (Number(bikePrice) === 0 && !Number.isInteger(Number(key))) ||
-    (Number(bikePrice) === 0 && Number(key) === 0)
+    (Number(bikePrice) === 0 && Number(key) === 0) ||
+    (!Number.isInteger(Number(key)) && !editKeys.includes(key))
   ) {
     return false
   } else {
