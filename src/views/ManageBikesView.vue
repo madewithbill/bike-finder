@@ -273,8 +273,8 @@ async function onSubmit() {
                 <InputLabel label-for="sale-price">Sale Price</InputLabel>
                 <Input
                   v-model="formattedSalePrice"
-                  @keydown="(e: KeyboardEvent) => validateKey(e, bikePrice)"
-                  @input="(e: InputEvent) => (bikePrice = getRawPrice(e))"
+                  @keydown="(e: KeyboardEvent) => validateKey(e, bikeSalePrice)"
+                  @input="(e: InputEvent) => (bikeSalePrice = getRawPrice(e))"
                   id="sale-price"
                   inputmode="numeric"
                   :disabled="!bikeOnSale"
