@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { supabase } from '../utils/supabaseClient.ts'
 import { ref, onMounted, computed } from 'vue'
-import { formatPrice } from '@/utils/formatPrice.ts'
+import { formatPrice, validateKey, getRawPrice } from '@/utils/formatPrice.ts'
 import { createImgSrc } from '@/utils/imageSrc.ts'
 import { hideSkeleton } from '@/utils/hideSkeleton.ts'
 
@@ -142,23 +142,6 @@ async function onSubmit() {
   }
   formVisible.value = false
 }
-
-// Price input validation and conversion
-function validateKey(e: KeyboardEvent) {
-  const validKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
-  if (!Number(e.key) && !validKeys.includes(e.key)) {
-    e.preventDefault()
-  }
-}
-
-function getRawPrice(e: InputEvent) {
-  const value: string = (e.target as HTMLInputElement).value
-  const rawPrice = value
-    .split('')
-    .filter((l) => Number(l))
-    .join('')
-  bikePrice.value = rawPrice
-}
 </script>
 
 <template>
@@ -234,8 +217,8 @@ function getRawPrice(e: InputEvent) {
               <InputLabel label-for="price">Price</InputLabel>
               <Input
                 v-model="formattedPrice"
-                @keydown="validateKey"
-                @input="getRawPrice"
+                @keydown="(e: KeyboardEvent) => validateKey(e, bikePrice)"
+                @input="(e: InputEvent) => (bikePrice = getRawPrice(e))"
                 id="price"
                 inputmode="numeric"
               />
@@ -290,8 +273,8 @@ function getRawPrice(e: InputEvent) {
                 <InputLabel label-for="sale-price">Sale Price</InputLabel>
                 <Input
                   v-model="formattedSalePrice"
-                  @keydown="validateKey"
-                  @input="getRawPrice"
+                  @keydown="(e: KeyboardEvent) => validateKey(e, bikePrice)"
+                  @input="(e: InputEvent) => (bikePrice = getRawPrice(e))"
                   id="sale-price"
                   inputmode="numeric"
                   :disabled="!bikeOnSale"
