@@ -9,16 +9,24 @@ export function formatPrice(price: number) {
 
 // Price input validation and conversion
 export function allowKey(key: string, bikePrice: string) {
-  //allowable editing keys
-  const editKeys = ['ArrowLeft', 'ArrowRight', 'Backspace']
-  if (
-    (Number(bikePrice) === 0 && !Number.isInteger(Number(key))) ||
-    (Number(bikePrice) === 0 && Number(key) === 0) ||
-    (!Number.isInteger(Number(key)) && !editKeys.includes(key))
-  ) {
+  //allowable editing and nav keys
+  const navKeys = ['ArrowLeft', 'ArrowRight', 'Tab', 'Enter']
+  //keys to be blocked when price is zero
+  const zeroBlockedKeys = ['Backspace', '0']
+
+  const keyIsInteger = Number.isInteger(Number(key))
+  const priceIsZero = Number(bikePrice) === 0
+
+  if (key === ' ') {
     return false
-  } else {
+  } else if (
+    navKeys.includes(key) ||
+    (priceIsZero && keyIsInteger && !zeroBlockedKeys.includes(key)) ||
+    (!priceIsZero && (keyIsInteger || zeroBlockedKeys.includes(key)))
+  ) {
     return true
+  } else {
+    return false
   }
 }
 
