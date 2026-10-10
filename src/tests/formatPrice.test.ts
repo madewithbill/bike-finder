@@ -18,6 +18,7 @@ describe('allowKey', () => {
   test.each([
     { key: '0', price: '0', expected: false },
     { key: '0', price: '1', expected: true },
+    { key: 'b', price: '0', expected: false },
     { key: 'b', price: '100', expected: false },
     { key: 'Backspace', price: '0', expected: false },
     { key: 'Backspace', price: '100', expected: true },
