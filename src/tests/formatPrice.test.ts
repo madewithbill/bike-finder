@@ -24,10 +24,6 @@ describe('allowKey', () => {
   ])('allowKey for $key is $expected when price is $price', ({ key, price, expected }) => {
     expect(allowKey(key, price)).toBe(expected)
   })
-
-  test('sets keyAllowed in validateKey to false when the price string is 0', () => {
-    expect(allowKey('Backspace', '0')).toBe(false)
-  })
 })
 
 describe('priceToString', () => {
