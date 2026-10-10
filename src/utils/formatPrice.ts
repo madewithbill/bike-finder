@@ -27,10 +27,10 @@ export function validateKey(e: KeyboardEvent, bikePrice: string) {
 }
 
 export function priceToString(value: string) {
-  let rawPrice = value
-    .split('')
-    .filter((l) => Number(l))
-    .join('')
+  const priceArr = value.split('').filter((l) => Number.isInteger(Number(l)))
+  const nonZeroStart = priceArr.findIndex((num: string) => Number(num) !== 0)
+  const trimmedArr = priceArr.slice(nonZeroStart)
+  let rawPrice = trimmedArr.join('')
   if (rawPrice === '') {
     rawPrice = '0'
   }
