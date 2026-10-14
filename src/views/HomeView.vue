@@ -36,7 +36,7 @@ function selectType(bike: string) {
 }
 
 watch(currentType, () => {
-  getBikes()
+  getAvailableBikes()
 })
 
 const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' })
@@ -53,17 +53,18 @@ const currentBikeList = computed(() => {
   return !bikes.value ? [] : bikes.value.filter((bike) => bike.bike_type === currentType.value)
 })
 
-async function getBikes() {
+async function getAvailableBikes() {
   const { data } = await supabase
     .from('bikes')
     .select()
+    .range(0, 9)
     .eq('bike_type', currentType.value)
     .eq('in_stock', true)
   bikes.value = data
 }
 
 onMounted(() => {
-  getBikes()
+  getAvailableBikes()
 })
 </script>
 
