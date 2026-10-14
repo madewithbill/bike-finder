@@ -6,7 +6,6 @@ import useEmblaCarousel from 'embla-carousel-vue'
 import { supabase } from '../utils/supabaseClient.ts'
 
 import Divider from '../components/ui/Divider.vue'
-import NavLogo from '../components/NavLogo.vue'
 import HeroImage from '../components/HeroImage.vue'
 import type { Tables } from '../utils/supabase.ts'
 import BikeCard from '../components/BikeCard.vue'
@@ -30,10 +29,6 @@ const currentSize = computed(() => {
     return getCitySize(currentHeight.value)
   }
 })
-
-function selectType(bike: string) {
-  currentType.value = bike
-}
 
 watch(currentType, () => {
   getAvailableBikes()
