@@ -6,7 +6,6 @@ import useEmblaCarousel from 'embla-carousel-vue'
 import { supabase } from '../utils/supabaseClient.ts'
 
 import Divider from '../components/ui/Divider.vue'
-import NavLogo from '../components/NavLogo.vue'
 import HeroImage from '../components/HeroImage.vue'
 import type { Tables } from '../utils/supabase.ts'
 import BikeCard from '../components/BikeCard.vue'
@@ -31,12 +30,8 @@ const currentSize = computed(() => {
   }
 })
 
-function selectType(bike: string) {
-  currentType.value = bike
-}
-
 watch(currentType, () => {
-  getBikes()
+  getAvailableBikes()
 })
 
 const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' })
@@ -53,17 +48,18 @@ const currentBikeList = computed(() => {
   return !bikes.value ? [] : bikes.value.filter((bike) => bike.bike_type === currentType.value)
 })
 
-async function getBikes() {
+async function getAvailableBikes() {
   const { data } = await supabase
     .from('bikes')
     .select()
+    .range(0, 9)
     .eq('bike_type', currentType.value)
     .eq('in_stock', true)
   bikes.value = data
 }
 
 onMounted(() => {
-  getBikes()
+  getAvailableBikes()
 })
 </script>
 

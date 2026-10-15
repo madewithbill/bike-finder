@@ -18,6 +18,7 @@ import Divider from '@/components/ui/Divider.vue'
 import Checkbox from '@/components/ui/Checkbox.vue'
 
 const bikes: Ref<Tables<'bikes'>[] | null> = ref([])
+const allResultsServed = ref(false)
 
 // Add bike refs
 const bikeId = ref<number>()
@@ -40,8 +41,21 @@ const submitText = ref('Add bike')
 const editingBike = ref(false)
 
 async function getBikes() {
-  const { data } = await supabase.from('bikes').select()
-  bikes.value = data
+  const from = bikes.value?.length ?? 0
+  const to = from + 9
+
+  const { data, count } = await supabase
+    .from('bikes')
+    .select('*', { count: 'exact' })
+    .range(from, to)
+  //add resulting bikes to the bikes array
+  if (data) {
+    bikes.value?.push(...data)
+  }
+  // check if all matching bike results have been rendered
+  if (bikes.value?.length && count) {
+    allResultsServed.value = bikes.value.length >= count ? true : false
+  }
 }
 
 onMounted(() => {
@@ -188,6 +202,10 @@ async function onSubmit() {
           </div>
           <Button size="sm" @click="setForm(bike.id)">Edit</Button>
         </div>
+      </div>
+      <div class="mt-4 text-center">
+        <Button variant="secondary" v-if="!allResultsServed" @click="getBikes">Load More</Button>
+        <span v-else class="text-sm text-neutral-950/70">All results shown.</span>
       </div>
       <div
         @click.self="formVisible = false"
